@@ -146,7 +146,9 @@ button {
     font-size: 15px;
 }
 }
-
+..hlebv.modal_overlay{
+    z-index:10;
+}
 
 `;
 

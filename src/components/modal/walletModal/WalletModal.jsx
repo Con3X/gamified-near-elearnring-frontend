@@ -3,21 +3,30 @@ import { FiX, FiChevronRight } from "react-icons/fi";
 import WalletModalStyleWrapper from "./WalletModal.style";
 import { isMetaMaskInstalled, connectWallet } from "lib/metamaskhandler";
 import metamaskIcon from "assets/images/icons/meta-mask.png";
-import coinBase from "assets/images/icons/coinbase.png";
-import trustWalletIcon from "assets/images/icons/trust.png";
-import walletConnect from "assets/images/icons/wallet.png";
+//import coinBase from "assets/images/icons/coinbase.png";
+//import trustWalletIcon from "assets/images/icons/trust.png";
+//import walletConnect from "assets/images/icons/wallet.png";
+import nearIcon from "assets/images/icons/near_icon.png";
+import {  handleNearLogin  } from "lib/nearhandler";
+import "@near-wallet-selector/modal-ui/styles.css";
+
+
 
 const WalletModal = () => {
   const { walletModalHandle, handleMetamaskModal } = useModal();
 
+
   const handleMetamask = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!isMetaMaskInstalled()) {
       handleMetamaskModal();
     } else {
       const account = await connectWallet();
+      console.log("MetaMask account:", account);
     }
-  }
+  };
+
+  
 
   return (
     <>
@@ -26,15 +35,14 @@ const WalletModal = () => {
           <div className="mint_modal_content">
             <div className="modal_header">
               <h2>CONNECT WALLET</h2>
-              <p>
-                Please select a wallet to connect to this marketplace
-              </p>
+              <p>Please select a wallet to connect to this marketplace</p>
               <button onClick={() => walletModalHandle()}>
                 <FiX />
               </button>
             </div>
             <div className="modal_body text-center">
               <div className="wallet_list">
+                {/* MetaMask Wallet */}
                 <a href="#" onClick={(e) => handleMetamask(e)}>
                   <img src={metamaskIcon} alt="Meta-mask-Image" />
                   MetaMask
@@ -42,6 +50,18 @@ const WalletModal = () => {
                     <FiChevronRight />
                   </span>
                 </a>
+
+                {/* NEAR Wallet */}
+                <a href="#" onClick={handleNearLogin}>
+                  <img src={nearIcon} alt="Near Wallet Image" />
+                  Near Wallet
+                  <span>
+                    <FiChevronRight />
+                  </span>
+                </a>
+
+                {/* محفظات أخرى (اختياري) */}
+                {/* 
                 <a href="# ">
                   <img src={coinBase} alt="Coinbase-Image" />
                   Coinbase
@@ -63,6 +83,7 @@ const WalletModal = () => {
                     <FiChevronRight />
                   </span>
                 </a>
+                */}
               </div>
               <div className="modal_bottom_text">
                 By connecting your wallet, you agree to our

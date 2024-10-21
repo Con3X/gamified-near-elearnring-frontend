@@ -7,7 +7,7 @@ const ProgressBarStyle = styled.div`
   .progress_bar {
     position: relative;
     width: 100%;
-    height: 15px;
+    height: ${({ height }) => height || '15px'};
     background: rgba(255, 255, 255, 0.1);
     .progress_bar_overlay {
       position: absolute;

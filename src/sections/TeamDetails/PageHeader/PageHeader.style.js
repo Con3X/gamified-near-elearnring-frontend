@@ -6,7 +6,7 @@ const PageHeaderStyleWrapper = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 80px 0 70px;
+  padding: 35px 0 35px;
 
   .breadcrumb_area {
     font-family: "Russo One", sans-serif;
@@ -32,7 +32,6 @@ const PageHeaderStyleWrapper = styled.div`
         margin-left: 15px;
       }
     }
-
   }
   .breadcrumb_title {
     color: #ffffff;

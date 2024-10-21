@@ -137,11 +137,11 @@ const LinkStyle = styled.a`
   ${({ sm }) =>
     sm &&
     css`
-      width: 170px;
-      height: 50px;
+      width: 120px;
+      height: 40px;
       @media only screen and (max-width: 768px) {
         width: 150px;
-        height: 50px;
+        height: 40px;
       }
     `}
   ${({ md }) =>
@@ -187,7 +187,17 @@ const LinkStyle = styled.a`
         width: 200px;
       }
     `}
-    
+     ${({ cust }) =>
+    cust &&
+    css`
+      width: 200px;
+      height: 45px;
+      @media only screen and (max-width: 768px) {
+        width: 150px;
+        height: 50px;
+      }
+    `}
+
     @media only screen and (max-width: 768px) {
     font-size: 14px;
     column-gap: 14px;

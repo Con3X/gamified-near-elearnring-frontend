@@ -25,6 +25,18 @@ import IgoApply from "pages/igo-apply";
 import RoadmapDetails from "pages/roadmap-details";
 import TeamDetails from "pages/team-details";
 import Contact from "pages/contact";
+import Profile from "pages/profile";
+import EditProfile from "pages/edit-profile";
+import Wizard from "pages/Wizard";
+import CourseInfo from "pages/course-info";
+import LessonPage from "pages/lesson";
+import EditQaPage from "pages/edit-qa";
+import TeacherDashbordPage from "pages/teacher-dashbord";
+import ShowLessonPage from "pages/show-lesson";
+import CourseDetailsPage from "pages/course-details";
+import HomePage from "pages/home";
+import QuizPage from "pages/quiz";
+import GuardUrl from "components/GuardUrl/GuardUrl";
 
 function App() {
   return (
@@ -55,6 +67,118 @@ function App() {
       <Route path="/roadmap-details" element={<RoadmapDetails />} />
       <Route path="/team-details" element={<TeamDetails />} />
       <Route path="/contact" element={<Contact />} />
+      <Route
+        path="/Profile"
+        element={
+          <GuardUrl>
+            <Profile />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/edit-profile"
+        element={
+          <GuardUrl>
+            <EditProfile />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/wizard"
+        element={
+          <GuardUrl>
+            <Wizard />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/course-info"
+        element={
+          <GuardUrl>
+            <CourseInfo />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/course-info/:courseId"
+        element={
+          <GuardUrl>
+            <CourseInfo />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/edit-lesson/:courseId/:lessonId"
+        element={
+          <GuardUrl>
+            <LessonPage />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/add-lesson/:courseId"
+        element={
+          <GuardUrl>
+            <LessonPage />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/show-lesson/:courseId"
+        element={
+          <GuardUrl>
+            <ShowLessonPage />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/add-qa/:courseId/:lessonId"
+        element={
+          <GuardUrl>
+            <EditQaPage />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/edit-qa/:courseId/:lessonId/:qaId"
+        element={
+          <GuardUrl>
+            <EditQaPage />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/teacher-dashbord"
+        element={
+          <GuardUrl>
+            <TeacherDashbordPage />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/course-detials/:courseId"
+        element={
+          <GuardUrl>
+            <CourseDetailsPage />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/home"
+        element={
+          <GuardUrl>
+            <HomePage />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/quiz/:lessonId"
+        element={
+          <GuardUrl>
+            <QuizPage />
+          </GuardUrl>
+        }
+      />
     </Routes>
   );
 }

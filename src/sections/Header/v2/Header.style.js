@@ -6,7 +6,7 @@ const NavWrapper = styled.nav`
   z-index: 999;
   position: relative;
   background: #090a1a;
- 
+
   &::before,
   &::after {
     position: absolute;
@@ -28,8 +28,8 @@ const NavWrapper = styled.nav`
 
   &.gamfi_header {
     display: flex;
-  align-items: center;
-    width: 100%; 
+    align-items: center;
+    width: 100%;
     height: 105px;
     transition: all 0.3s;
     z-index: 12;
@@ -199,7 +199,7 @@ const NavWrapper = styled.nav`
   }
 
   .gamfi_menu_btns {
-    width: 50%;
+    width: 40%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -227,6 +227,7 @@ const NavWrapper = styled.nav`
 
     /* dropdown btn  */
     .wallet_btn {
+      color: #a3ff12;
       position: relative;
       display: flex;
       justify-content: center;

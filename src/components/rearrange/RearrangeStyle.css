@@ -1,0 +1,26 @@
+.button-style {
+  background-color: transparent;
+  border: 1px solid #4c4c5e;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.up-arrow-style {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 7px solid #c0c0c0;
+}
+
+.down-arrow-style {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid #c0c0c0;
+}
