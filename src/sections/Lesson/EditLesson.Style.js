@@ -45,7 +45,7 @@ const EditLessonStyleWrapper = styled.div`
 
   .discriptionQuill {
     width: 90%;
-    margin-bottom:15px;
+    margin-bottom: 15px;
   }
 
   .ql-container {
@@ -69,6 +69,14 @@ const EditLessonStyleWrapper = styled.div`
 
     .right-content {
       margin-top: 15px;
+    }
+  }
+  @media only screen and (max-width: 999px) {
+    .discriptionQuill {
+      width: 100%;
+    }
+    input {
+      width: 100%;
     }
   }
 `;

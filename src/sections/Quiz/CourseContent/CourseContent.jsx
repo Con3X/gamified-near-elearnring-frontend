@@ -1,59 +1,84 @@
 import Header from "sections/Quiz/Header";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import CourseContentWrapper from "./CourseContent.style";
 import ProgressBar from "components/progressBar";
 import CourseTitle from "./CourseTitle/CourseTitle";
 import correctIcon from "assets/images/icons/correct.png";
 import unCorrectIcon from "assets/images/icons/unCorrect.png";
-import { data } from "./index";
+import {
+  getAllQustionForLecture,
+  createStartUserLectureInCourse,
+  updateFinishLectureInCourse,
+} from "apiService";
 
-export default function CourseContent({ lessonId }) {
+export default function CourseContent({ courseId, lectureId }) {
+  const [data, setData] = useState([]);
   const [isCorrect, setIsCorrect] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
-  const [currentQuestionNumber, setCurrentQuestionNumber] = useState(1);
+  const [currentQuestionSequence, setCurrentQuestionSequence] = useState(1);
 
-  // Sort Qustion According By Number
-  const sortedQuestions = data.question.sort((a, b) => a.number - b.number);
+  // Create User Lecture
+  useEffect(() => {
+    const createStartUserLecture = async () => {
+      try {
+        await createStartUserLectureInCourse(courseId, lectureId);
+      } catch {}
+    };
+    createStartUserLecture();
+  }, [courseId, lectureId]);
 
-  // Get Qustion According By Number
+  // Get Qustion For This Lecture
+  useEffect(() => {
+    const fetchQuestion = async () => {
+      try {
+        const response = await getAllQustionForLecture(courseId, lectureId);
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching courses data:", error);
+      }
+    };
+    fetchQuestion();
+  }, [courseId, lectureId]);
+
+  // Sort Qustion According By sequence
+  const sortedQuestions = data.sort((a, b) => a.sequence - b.sequence);
+
+  // Get Qustion According By sequence
   const currentQuestion = sortedQuestions.find(
-    (question) => question.number === currentQuestionNumber
+    (question) => question.sequence === currentQuestionSequence
   );
 
   // Handle Answare Change
-  const handleAnswerChange = (index) => {
+  const handleAnswerChange = (id) => {
     const currentAnswers = [...selectedAnswers];
-    if (currentAnswers.includes(index)) {
-      const updatedAnswers = currentAnswers.filter((i) => i !== index);
+    if (currentAnswers.includes(id)) {
+      const updatedAnswers = currentAnswers.filter(
+        (answerId) => answerId !== id
+      );
       setSelectedAnswers(updatedAnswers);
     } else {
-      setSelectedAnswers([...currentAnswers, index]);
+      setSelectedAnswers([...currentAnswers, id]);
     }
   };
 
   const handleCheckAnswers = () => {
     // Get Correct Answare For Current Qustion
-    const correctAnswers = currentQuestion.answare
-      .map((ans, idx) => (ans.iscorrect ? idx : null))
-      .filter((idx) => idx !== null);
-
-    const isAllCorrect =
-      selectedAnswers.length === correctAnswers.length &&
-      selectedAnswers.every((answer) => correctAnswers.includes(answer));
-
-    setIsCorrect(isAllCorrect);
+    selectedAnswers.join(", ");
+    
+    // setIsCorrect(isAllCorrect);
   };
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async () => {
     setSelectedAnswers([]);
     setIsCorrect(null);
 
     // Move To Next Qustion
-    setCurrentQuestionNumber((prevNumber) =>
+    setCurrentQuestionSequence((prevNumber) =>
       prevNumber < sortedQuestions.length ? prevNumber + 1 : prevNumber
     );
 
-    if (currentQuestionNumber === sortedQuestions.length) {
+    if (currentQuestionSequence === sortedQuestions.length) {
+      await updateFinishLectureInCourse(courseId, lectureId);
       alert("You are finish");
     }
   };
@@ -65,28 +90,32 @@ export default function CourseContent({ lessonId }) {
           <div className="section-1">
             <Header />
             <div className="content-left">
-              <div dangerouslySetInnerHTML={{ __html: "" }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: data[0]?.lecture.description,
+                }}
+              />
             </div>
           </div>
           <div className="section-2">
             <div className="content-right">
               {/* Start Title */}
               <CourseTitle
-                courseLogo={data.courseLogo}
-                lessonNumber={data.lessonNumber}
+                courseLogo={data[0]?.lecture.course.logo}
+                lessonNumber={data[0]?.lecture.order}
                 point={10}
               />
               {/* End Title */}
               {/* Start Progress */}
               <div className="progreess">
-                <h6>Lesson Progress</h6>
+                <h6>Progress</h6>
                 <ProgressBar
                   progress={`${
-                    (currentQuestionNumber / sortedQuestions.length) * 100
+                    (currentQuestionSequence / sortedQuestions.length) * 100
                   }%`}
                 />
                 <div className="num">
-                  {currentQuestionNumber}/{sortedQuestions.length}
+                  {currentQuestionSequence}/{sortedQuestions.length}
                 </div>
               </div>
               {/* End Progress */}
@@ -106,8 +135,8 @@ export default function CourseContent({ lessonId }) {
                       </h5>
                       <h6>Correct Answers:</h6>
                       <ul>
-                        {currentQuestion.answare
-                          .filter((answer) => answer.iscorrect)
+                        {currentQuestion?.answer
+                          ?.filter((answer) => answer.is_correct)
                           .map((answer, index) => (
                             <li key={index}>{answer.description}</li>
                           ))}
@@ -119,17 +148,24 @@ export default function CourseContent({ lessonId }) {
 
               {isCorrect === null && (
                 <>
-                  <h5>{currentQuestion.qustion}</h5>
-                  {currentQuestion.answare?.map((answer, index) => (
-                    <div className="answare-option" key={index}>
+                  <h5>
+                    <div className="qustion-content"
+                      dangerouslySetInnerHTML={{
+                        __html: currentQuestion?.description,
+                      }}
+                    />
+                  </h5>
+
+                  {currentQuestion?.answer?.map((answer) => (
+                    <div className="answare-option" key={answer.id}>
                       <input
                         type="checkbox"
-                        id={`option${index}`}
-                        checked={selectedAnswers.includes(index)}
-                        onChange={() => handleAnswerChange(index)}
+                        id={`option${answer.id}`}
+                        checked={selectedAnswers.includes(answer.id)}
+                        onChange={() => handleAnswerChange(answer.id)}
                       />
                       <label
-                        htmlFor={`option${index}`}
+                        htmlFor={`option${answer.id}`}
                         className="answare-button"
                       >
                         {answer.description}

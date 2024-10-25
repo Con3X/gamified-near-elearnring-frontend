@@ -32,7 +32,7 @@ const CourseLessonStyleWrapper = styled.div`
   .lesson_item {
     position: relative;
     overflow: hidden;
-    width: 470px;
+    width: 60vw;
 
     /* corner shape  */
     &::before {

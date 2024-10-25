@@ -2,14 +2,8 @@ import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupModal } from "@near-wallet-selector/modal-ui";
 import { setupNightly } from "@near-wallet-selector/nightly";
 import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
- 
 import { login } from "../utils/ProviderAuth";
- 
-import { createAuthProvider } from "react-token-auth";
- 
 import Swal from "sweetalert2";
-
-
 
 /**
  * Setting up model for wallet-selector Add the required wallets and network and select lang
@@ -50,7 +44,7 @@ export const handleNearLogin = async () => {
       const localMessage = process.env.REACT_APP_LOCAL_MESSAGE;
       const nonceHex = process.env.REACT_APP_NONCE;
       const nonce = Buffer.from(nonceHex.replace(/^0x/, ""), "hex");
-
+      localStorage.setItem("firstLogin", "true");
       if (nonce.length !== 32) {
         throw new Error("Invalid nonce length. It must be exactly 32 bytes.");
       }
@@ -132,8 +126,11 @@ export const handleNearLogin = async () => {
         title: "Success",
         text: "Registration has been completed successfully.!",
       });
-      //window.location.href = '/wizard';
-      window.location.replace("/home");
+      if (localStorage.getItem("firstLogin") === "true") {
+        window.location.replace("/wizard");
+      } else {
+        window.location.replace("/");
+      }
     } else {
       console.log("Signature verification failed");
       Swal.fire({

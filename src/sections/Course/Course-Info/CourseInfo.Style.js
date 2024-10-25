@@ -107,6 +107,22 @@ const CourseInfoStyleWrapper = styled.div`
       margin-top: 15px;
     }
   }
+
+  @media only screen and (max-width: 480px) {
+    .courseDifficulty {
+      flex-direction: column;
+      width: 100%;
+    }
+    input:not(input[type="radio"]) {
+      width: 100%;
+    }
+    .course-logo {
+      width: 100%;
+    }
+    .discriptionQuill {
+      width: 100%;
+    }
+  }
 `;
 
 export default CourseInfoStyleWrapper;

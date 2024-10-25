@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ProfileDetailsStyleWrapper from "./ProfileDetails.style";
 import thumb from "assets/images/team/teamBig.png";
 import fbIcon from "assets/images/icons/facebook.svg";
@@ -7,57 +7,63 @@ import twitterIcon from "assets/images/icons/twitter.svg";
 import discordIcon from "assets/images/icons/discord.svg";
 import nearLand from "assets/images/Near-Land.jpg";
 import Button from "components/button";
-import {getUserProfile} from "apiService";
+import { getUserProfile } from "apiService";
 
 const ProfileDetails = () => {
   const [data, setData] = useState([]);
 
-/**
- * this To bring all the lessons from the back end
-*/
+  /**
+   * this To bring all the lessons from the back end
+   */
   useEffect(() => {
     const getUser = async () => {
       try {
         const response = await getUserProfile();
-        setData(response.data); 
+        setData(response.data);
       } catch (error) {
         console.error("Error fetching get user:", error);
       }
     };
 
     getUser();
-  }, [] );
+  }, []);
 
   return (
     <ProfileDetailsStyleWrapper>
       <div className="container">
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-4 left-content">
             <div className="left_content_thumb">
               <img
-                src={data.image}
-                width={100}
+                src={data.image || thumb}
+                style={{
+                  width: data.image ? "100%" : "100px",
+                }}
                 alt="team thumb"
                 className="img-fuild"
+                onError={(e) => {
+                  if (e.target.src !== thumb) {
+                    e.target.src = thumb;
+                  }
+                }}
               />
             </div>
-            <h2>{data.firstname} {data.lastname}</h2>
+            <h2>
+              {data.firstname} {data.lastname}
+            </h2>
 
             <ul className="member_details">
               <li>
-                <strong>Land Leavel:</strong>{" "}
-                <span>{data.landLevel}</span>
+                <strong>Land Leavel:</strong> <span>{data.landLevel}</span>
               </li>
               <li>
-                <strong>Player Country:</strong>{" "}
-                <span>{data.country}</span>
+                <strong>Player Country:</strong> <span>{data.country}</span>
               </li>
               <li>
                 <strong>Email:</strong> <span>{data.email}</span>
               </li>
               <li>
-                <strong>Top Point:</strong>{" "}
-                <span>{data.score} NP</span>
+                <strong>Top Point:</strong> <span>{data.score} NP</span>
               </li>
               <li className="social_items">
                 <strong>Social:</strong>
@@ -75,7 +81,7 @@ const ProfileDetails = () => {
                 </a>
               </li>
             </ul>
-            <div className="mt-3">
+            <div className="mt-3 mb-3">
               <Button
                 href="/edit-profile"
                 variant="mint"

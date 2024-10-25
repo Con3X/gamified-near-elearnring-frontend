@@ -271,6 +271,10 @@ const CourseCardStyleWrapper = styled.section`
     .countdown_wrapper {
       font-size: 26px;
     }
+
+    .allocation-max {
+      margin-bottom: 20px;
+    }
   }
 `;
 

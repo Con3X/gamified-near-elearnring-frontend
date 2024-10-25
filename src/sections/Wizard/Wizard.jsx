@@ -1,24 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProgressBar from "components/progressBar/v2";
 import Button from "components/button";
 import CountrySelector from "components/CountrySelector/CounterSelector.jsx";
 import banner from "assets/images/banner-bg.jpg";
 import land from "assets/images/Land.png";
-//import { handleSubmit } from "./Wizard.js";
-import { updateUserProfile } from "apiService"; 
-
+import { updateUserProfile } from "apiService";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./Wizard.css";
 
 export default function Wizard() {
+  const navigate = useNavigate();
+  const [isAccepted, setIsAccepted] = useState(false);
   const [step, setStep] = useState(1);
+  const navigate = useNavigate();
   const [formInput, setFormInput] = useState({
     firstname: "",
     lastname: "",
     email: "",
-    //username: "",
-    //password: "",
-    //confirmPassword: "",
     country: "",
+  });
+
+  useEffect(() => {
+    localStorage.removeItem("firstLogin");
   });
 
   const handleCountryChange = (selectedCountry) => {
@@ -36,8 +40,20 @@ export default function Wizard() {
     }));
   };
 
+  const handleCheckboxChange = (e) => {
+    setIsAccepted(e.target.checked);
+  };
+
   const handleNext = () => {
-    if (step < 3) setStep(step + 1);
+    if (step === 1 && !isAccepted) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Please accept the terms and conditions before proceeding.",
+      });
+      return;
+    }
+    if (step < 2) setStep(step + 1);
   };
 
   const handlePrev = () => {
@@ -46,17 +62,29 @@ export default function Wizard() {
 
   /**
    * this to update profile user
-  */
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const updatedUser = await updateUserProfile(formInput);
+      await updateUserProfile(formInput);
       console.log("User updated successfully");
     } catch (error) {
       console.error("Error updating user profile:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "There was an error created .",
+      });
     }
   };
-
+  const handleComplateToProfile = (e) => {
+    handleSubmit(e);
+    navigate("/profile");
+  };
+  const handleBackToHome = (e) => {
+    handleSubmit(e);
+    navigate("/home");
+  };
   return (
     <div className="Wizard">
       <div className="Wizard-Logo">
@@ -65,8 +93,8 @@ export default function Wizard() {
       </div>
       <div className="Wizard-Content">
         <div className="Content">
-          <ProgressBar progress={`${step * 33.3}%`} hight={"5px"} />
-          <div className="Wizard-sub-text">{step}/3</div>
+          <ProgressBar progress={`${step * 50}%`} hight={"5px"} />
+          <div className="Wizard-sub-text">{step}/2</div>
           <form>
             {step === 1 && (
               <div className="form-div">
@@ -108,7 +136,13 @@ export default function Wizard() {
                   />
                 </div>
                 <div>
-                  <input type="checkbox" name="accept" value="accept" />
+                  <input
+                    type="checkbox"
+                    name="accept"
+                    value="accept"
+                    checked={isAccepted}
+                    onChange={handleCheckboxChange}
+                  />
                   <label className="pl-2">
                     Please accept our{" "}
                     <span>
@@ -118,49 +152,6 @@ export default function Wizard() {
                 </div>
               </div>
             )}
-            {/*
-             
-            {step === 2 && (
-              <div className="form-div">
-                <div className="step-title">
-                  Please provide your account details
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    id="username"
-                    placeholder="UserName"
-                    className="form-control"
-                    value={formInput.username}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              
-              
-                <div>
-                  <input
-                    type="password"
-                    id="password"
-                    placeholder="Password"
-                    className="form-control"
-                    value={formInput.password}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div>
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    placeholder="Confirm Password"
-                    className="form-control"
-                    value={formInput.confirmPassword}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              
-              </div>
-            )}
-              */}
             {step === 2 && (
               <div className="form-div">
                 <div className="step-title">Summary</div>
@@ -180,33 +171,34 @@ export default function Wizard() {
                 <span className="Wizard-sub-text">{formInput.country}</span>
                 <br />
                 <br />
-                <div className="sub-title" data-number="2">
-                  Account Details
-                </div>
-                <span className="sub-title-content">User Name: </span>
-                <span className="Wizard-sub-text">{formInput.username}</span>
-                <br />
-                <span className="sub-title-content">Password: </span>
-                <span className="Wizard-sub-text">{formInput.password}</span>
-                <br />
               </div>
             )}
             <hr />
 
             <div className="button">
-              {step > 1 && (
-                <Button variant="white" onClick={handlePrev}>
-                  Prev
-                </Button>
+              {step === 1 && (
+                <>
+                  <Button sm variant="white" onClick={() => navigate("/")}>
+                    Skip
+                  </Button>
+                  <Button sm variant="mint" onClick={handleNext}>
+                    Next
+                  </Button>
+                </>
               )}
-              <Button
-                variant="blue"
-                onClick={
-                  step === 3 ? handleSubmit : handleNext
-                }
-              >
-                {step === 3 ? "Save" : "Next"}
-              </Button>
+              {step > 1 && (
+                <>
+                  <Button md variant="white" onClick={handlePrev}>
+                    Prev
+                  </Button>
+                  <Button lg variant="blue" onClick={handleComplateToProfile}>
+                    Complate To Profile
+                  </Button>
+                  <Button lg variant="mint" onClick={handleBackToHome}>
+                    Back To Home
+                  </Button>
+                </>
+              )}
             </div>
           </form>
         </div>

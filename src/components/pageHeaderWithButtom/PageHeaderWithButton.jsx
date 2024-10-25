@@ -2,6 +2,7 @@ import Button from "components/button";
 import titleShape from "assets/images/icons/steps.png";
 import PageHeaderWithButtonStyleWrapper from "./PageHeaderWithButton.style";
 import { FiSearch } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const PageHeader = ({
   currentPage,
@@ -19,7 +20,7 @@ const PageHeader = ({
             <div className="breadcrumb_area">
               <div className="breadcrumb_menu">
                 <>
-                  <a href="# ">Home</a> <span>.</span>{" "}
+                  <Link to="/">Home</Link> <span>.</span>{" "}
                   {currentPage && currentPage}
                 </>
                 <img
@@ -36,7 +37,7 @@ const PageHeader = ({
           <div className="col-lg-7">
             <div className="breadcrumb_form">
               {isShowSearch && (
-                <div>
+                <div className="search">
                   <input
                     type="text"
                     id="Search"

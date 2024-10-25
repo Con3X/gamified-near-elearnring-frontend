@@ -2,7 +2,7 @@ const data = [
   {
     id: "1W1WV",
     title: "All Courses",
-    url: "/home",
+    url: "/",
   },
   {
     id: "1W2WV",

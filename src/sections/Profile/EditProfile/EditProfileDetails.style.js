@@ -160,6 +160,21 @@ const EditProfileDetailsStyleWrapper = styled.div`
       flex-direction: column;
     }
   }
+  @media only screen and (max-width: 480px) {
+    input {
+      width: 100%;
+    }
+    .left-content {
+      flex-direction: column;
+      width: 100vw;
+    }
+    .left_content_thumb {
+      margin-right: 0px;
+    }
+    .css-rrhtqz-control {
+      width: 100%;
+    }
+  }
 `;
 
 export default EditProfileDetailsStyleWrapper;

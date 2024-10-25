@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import GlobalStyles from "assets/styles/GlobalStyles";
 import Layout from "components/layout";
 import Header from "sections/Header/v2";
@@ -7,9 +7,26 @@ import CourseHeader from "sections/Course/Course-Details/CourseHeader/CourseHead
 import CourseLesson from "sections/Course/Course-Details/CourseLesson/CourseLesson";
 import CourseContent from "sections/Course/Course-Details/CourseContent/CourseContent";
 import { useParams } from "react-router-dom";
+import { getAllLectureForCourse } from "apiService";
 
 export default function CourseDetailsPage() {
   const { courseId } = useParams();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await getAllLectureForCourse(courseId);
+        const lectureData = response.data;
+        setData(lectureData);
+      } catch (error) {
+        console.error("Error fetching lecture data:", error);
+      }
+    };
+
+    fetchCourses();
+  }, [courseId]);
+
   return (
     <Fragment>
       <Layout>
@@ -20,8 +37,8 @@ export default function CourseDetailsPage() {
           pageTitle=""
           isShowShareIcon={true}
         />
-        <CourseHeader />
-        <CourseLesson />
+        <CourseHeader data={data} />
+        <CourseLesson data={data} />
         <CourseContent content={""} />
       </Layout>
     </Fragment>

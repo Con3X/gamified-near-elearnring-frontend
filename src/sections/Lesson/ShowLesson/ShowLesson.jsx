@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import EditLessonStyleWrapper from "./ShowLesson.Style";
 import ListManager from "components/listManager/ListManager";
 import { initDataTest, handelChangeReanger } from "./index";
-import { getAllLesson  } from "apiService"; 
+import { getAllLesson } from "apiService";
 
 export default function ShowLesson({ courseId }) {
   const [data, setData] = useState([]);
 
-/**
- * this To bring all the lessons from the back end
- */
+  /**
+   * this To bring all the lessons from the back end
+   */
   useEffect(() => {
     const fetchLessons = async () => {
       try {
         const response = await getAllLesson(courseId);
-        setData(response.data); 
+        setData(response.data);
       } catch (error) {
         console.error("Error fetching lessons:", error);
       }
@@ -36,6 +36,7 @@ export default function ShowLesson({ courseId }) {
                 onChange={(data) => handelChangeReanger(data, setData)}
                 href={`/edit-lesson/${courseId}`}
                 idField={"id"}
+                arrangeFild={"order"}
               />
             </div>
           </div>

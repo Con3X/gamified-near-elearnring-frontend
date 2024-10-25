@@ -1,3 +1,7 @@
+.content {
+  display: flex;
+}
+
 .answare {
   width: 60% !important;
 }
@@ -8,4 +12,21 @@ label {
 
 .answare-right {
   margin-top: 12px;
+}
+
+@media only screen and (max-width: 480px) {
+  .content {
+    flex-direction: column;
+  }
+  .answare {
+    width: 100% !important;
+  }
+
+  label {
+    padding: 0;
+  }
+
+  .answare-right {
+    margin-bottom: 12px;
+  }
 }

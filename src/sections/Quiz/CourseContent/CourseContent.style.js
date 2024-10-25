@@ -6,17 +6,41 @@ const CourseContentWrapper = styled.nav`
   }
 
 .section-1 {
-    flex: 9;
+    width: calc(100vw - 300px);
   }
 
 .section-2 {
-   flex: 3;
+   width: 300px;
   }
 
+  
   .content-left {
     height: clac(100vh - 90px);
     padding: 50px 50px 0 50px;
   }
+
+  @media only screen and (max-width: 700px) {
+    .course-content{
+      flex-direction: column;
+    }
+      .section-1 {
+    width: 100vw;
+  }
+
+  .section-2 {
+   width: 100vw;
+    }
+
+  .qustion-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+  .content-left {
+    padding: 20px 20px 0 20px;
+    }
+  }
+
 
   .content-right {
   position: relative;
@@ -106,13 +130,7 @@ const CourseContentWrapper = styled.nav`
   }
 
     @media only screen and (max-width: 999px) {
-    .section-1 {
-    flex: 7 !important;
-  }
-
-  .section-2 {
-    flex: 5 !important;
-    }
+    
   }
 
 `;

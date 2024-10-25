@@ -46,7 +46,7 @@ const PageHeaderWithButtonStyleWrapper = styled.div`
     justify-content: end;
     column-gap: 30px;
 
-    div {
+    .search {
       position: relative;
 
       input,

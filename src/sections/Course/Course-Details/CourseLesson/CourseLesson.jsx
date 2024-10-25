@@ -1,40 +1,72 @@
+import { useEffect, useState } from "react";
 import CourseLessonStyleWrapper from "./CourseLesson.style";
-import { testData } from "./index";
+import { Link } from "react-router-dom";
 
-const CourseLesson = () => {
+const CourseLesson = ({ data }) => {
+  const [lessons, setLessons] = useState([]);
+  const [isNotStartCourse, setIsNotStartCourse] = useState(true);
+
+  useEffect(() => {
+    if (data && data.length > 0) {
+      const sortedData = [...data].sort((a, b) => a.order - b.order);
+      setLessons(sortedData);
+
+      const isCourseNotStarted = sortedData.every(
+        (item) =>
+          item?.userLecture[0]?.start_at === null ||
+          item?.userLecture[0]?.start_at === undefined ||
+          item?.userLecture[0] === undefined
+      );
+      setIsNotStartCourse(isCourseNotStarted);
+    }
+  }, [data]);
+
   return (
     <CourseLessonStyleWrapper>
       <div className="container">
         <div className="lesson_row">
-          {testData?.map((data, i) => (
+          {lessons?.map((data, i) => (
             <div
               key={data.id}
               className={`lesson_item ${
-                data.endAt !== null ? "shape_active" : ""
+                data?.userLecture[0]?.end_at !== null &&
+                data?.userLecture[0]?.end_at !== undefined
+                  ? "shape_active"
+                  : ""
               }`}
             >
-              <a href={`/quiz/${data.id}`}>
+              <Link
+                to={`/quiz/${data.course.id}/${data.id}/${isNotStartCourse}`}
+              >
                 <div className="lesson_item_inner">
                   <h4
                     className={`lesson_title ${
-                      data.endAt !== null ? "active" : ""
+                      data?.userLecture[0]?.end_at !== null &&
+                      data?.userLecture[0]?.end_at !== undefined
+                        ? "active"
+                        : ""
                     }`}
                   >
-                    Lesson #{data.number}
+                    Lesson #{data.order}
                   </h4>
                   <ul className="lesson_check_list">
-                    <div className="lesson-name">{data.lessonName}</div>
-                    <div className="lesson-small-title">{data.smallTitle}</div>
+                    <div className="lesson-name">{data.title}</div>
+                    {/* <div className="lesson-small-title">{data.description}</div> */}
                   </ul>
                 </div>
-              </a>
+              </Link>
               <div className="d-flex flex-column align-items-center mb-2">
                 <h3
-                  className={`mt-4 mb-4 ${data.endAt !== null ? "active" : ""}`}
+                  className={`mt-4 mb-4 ${
+                    data?.userLecture[0]?.end_at !== null &&
+                    data?.userLecture[0]?.end_at !== undefined
+                      ? "active"
+                      : ""
+                  }`}
                 >
-                  point {data.point}
+                  point {data.question.length * 10}
                 </h3>
-                {testData.length - 1 !== i && <div className="arrow-down" />}
+                {lessons.length - 1 !== i && <div className="arrow-down" />}
               </div>
             </div>
           ))}

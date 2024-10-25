@@ -1,27 +1,23 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import EditLessonStyleWrapper from "./EditLesson.Style";
 import Button from "components/button";
 import ListManager from "components/listManager/ListManager";
 import {
-  handleSubmit,
   handleInputChange,
   handelQAList,
-  handelAddQA,
   handleOnChangeDescription,
 } from "./index";
 import RichBoxQuill from "components/richBoxQuill/RichBoxQuill";
-import { createLesson , updateLesson ,getLessonById } from "apiService"; 
+import { createLesson, updateLesson, getLessonById } from "apiService";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function EditLesson({ courseId, lessonId }) {
-const [showQA, setShowQA] = useState(false);
-const [lessonid, setLessonId] = useState(null);
-/**
- * if edite lesson QA shaow or hide
-*/
+  const [showQA, setShowQA] = useState(false);
+  const [lessonid, setLessonId] = useState(null);
+  /**
+   * if edite lesson QA shaow or hide
+   */
   useEffect(() => {
     if (lessonId) {
       setShowQA(true);
@@ -30,20 +26,19 @@ const [lessonid, setLessonId] = useState(null);
 
   /**
    * form input
-  */
+   */
   const [formInput, setFormInput] = useState({
     title: "",
-    description:"",
-    pre_note:"",
-    next_note:"",
+    description: "",
+    pre_note: "",
+    next_note: "",
     order: 0,
     qaList: [],
   });
 
-
   /**
    * send data lesson to backend and create
-  */
+   */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,14 +46,18 @@ const [lessonid, setLessonId] = useState(null);
     const { qaList, ...lessonData } = formInput;
     lessonData.order = Number(lessonData.order);
     try {
-      const create = await createLesson(lessonData, courseId );
+      const create = await createLesson(lessonData, courseId);
       if (create && create.data && create.data.id) {
         setLessonId(create.data.id);
         setShowQA(true);
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: "The lesson has been created successfully!",
+          text: "The lesson has been created successfully! <br> You can add questions to the lesson from the side section.",
+        });
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth", 
         });
       }
     } catch (error) {
@@ -73,31 +72,30 @@ const [lessonid, setLessonId] = useState(null);
 
   /**
    * redirect after add QA into store QA interface
-  */
-    const navigate = useNavigate();
+   */
+  const navigate = useNavigate();
 
-    const handleSelectChange = (e) => {
-      const selectedOption = e.target.value;
-      
-      if (selectedOption === "Multiple-choice questions" && lessonid) {
-        navigate(`/add-qa/${courseId}/${lessonid}`);  
-      }
-      if (selectedOption === "Multiple-choice questions" && lessonId){
-        navigate(`/add-qa/${courseId}/${lessonId}`); 
-      }
-    };
+  const handleSelectChange = (e) => {
+    const selectedOption = e.target.value;
+
+    if (selectedOption === "Multiple-choice questions" && lessonid) {
+      navigate(`/add-qa/${courseId}/${lessonid}`);
+    }
+    if (selectedOption === "Multiple-choice questions" && lessonId) {
+      navigate(`/add-qa/${courseId}/${lessonId}`);
+    }
+  };
 
   /**
    * update date lesson
-  */
+   */
   const handleUpdate = async (e) => {
     e.preventDefault();
     const { qaList, ...lessonData } = formInput;
     lessonData.order = Number(lessonData.order);
     try {
-      const update = await updateLesson(lessonData , courseId ,lessonId);
+      const update = await updateLesson(lessonData, courseId, lessonId);
       if (update && update.data && update.data.id) {
-        
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -116,33 +114,30 @@ const [lessonid, setLessonId] = useState(null);
 
   /**
    * This works when you click on the Edit Course button to retrieve the course data and include this data in the fields.
-  */
+   */
 
-    useEffect(() => {
-      const fetchCourse = async () => {
-        if (lessonId !== undefined) {
-          try {
-            const response = await getLessonById(courseId , lessonId); 
-            const lessonData = response.data;
-            setFormInput({
-              title: lessonData.title,
-              description: lessonData.description,
-              pre_note: lessonData.pre_note,
-              next_note: lessonData.next_note,
-              order: lessonData.order,
-              qaList: lessonData.question,
-            });
-            
-          } catch (error) {
-            console.error("Error fetching course data:", error);
-          }
+  useEffect(() => {
+    const fetchCourse = async () => {
+      if (lessonId !== undefined) {
+        try {
+          const response = await getLessonById(courseId, lessonId);
+          const lessonData = response.data;
+          setFormInput({
+            title: lessonData.title,
+            description: lessonData.description,
+            pre_note: lessonData.pre_note,
+            next_note: lessonData.next_note,
+            order: lessonData.order,
+            qaList: lessonData.question,
+          });
+        } catch (error) {
+          console.error("Error fetching course data:", error);
         }
-      };
-  
-      fetchCourse();
-    }, [courseId]);
+      }
+    };
 
-
+    fetchCourse();
+  }, [courseId]);
 
   return (
     <>
@@ -178,7 +173,7 @@ const [lessonid, setLessonId] = useState(null);
                   */}
 
                   <div>
-                    <h6>Content Discription</h6>
+                    <h6>Discription</h6>
                     <div className="discriptionQuill">
                       <RichBoxQuill
                         placeholder="Enter discription talking about this lesson"
@@ -190,7 +185,7 @@ const [lessonid, setLessonId] = useState(null);
                     </div>
                   </div>
                   <div>
-                    <h6>Pre Note Lesson</h6>
+                    <h6>Pre Lesson Note</h6>
                     <input
                       type="text"
                       name="pre_note"
@@ -201,7 +196,7 @@ const [lessonid, setLessonId] = useState(null);
                   </div>
 
                   <div>
-                    <h6>Next Note Lesson</h6>
+                    <h6>After Lesson Note</h6>
                     <input
                       type="text"
                       name="next_note"
@@ -226,44 +221,45 @@ const [lessonid, setLessonId] = useState(null);
                     <Button
                       variant="mint"
                       lg
-                      onClick={lessonId === undefined ? handleSubmit : handleUpdate}
+                      onClick={
+                        lessonId === undefined ? handleSubmit : handleUpdate
+                      }
                     >
                       Save And Publish
                     </Button>
                   </div>
                 </div>
-                
-                 
+
                 {showQA && (
-                <div className="right-content">
-                  <h4 className="mb-3">Add Q/A</h4>
-                  <div className="dropdown-container">
-                    <select
-                      id="qa-type"
-                      name="qa-type"
-                      value="Shoce Q/A Type"
-                      onChange={handleSelectChange}
-                    >
-                      <option value="Shoce Q/A Type" disabled>
-                        Shoce Q/A Type
-                      </option>
-                      <option value="Multiple-choice questions">
-                        + Multiple-choice questions
-                      </option>
-                    </select>
+                  <div className="right-content">
+                    <h4 className="mb-3">Add Q/A</h4>
+                    <div className="dropdown-container">
+                      <select
+                        id="qa-type"
+                        name="qa-type"
+                        value="Shoce Q/A Type"
+                        onChange={handleSelectChange}
+                      >
+                        <option value="Shoce Q/A Type" disabled>
+                          Shoce Q/A Type
+                        </option>
+                        <option value="Multiple-choice questions">
+                          + Multiple-choice questions
+                        </option>
+                      </select>
+                    </div>
+                    <div>
+                      <ListManager
+                        initialData={formInput.qaList}
+                        mainField={"description"}
+                        onChange={(data) => handelQAList(data, setFormInput)}
+                        href={`/edit-qa/${courseId}/${lessonId}`}
+                        idField={"id"}
+                        arrangeFild={"sequence"}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <ListManager
-                      initialData={formInput.qaList}
-                      mainField={"description"}
-                      onChange={(data) => handelQAList(data, setFormInput)}
-                      href={`/edit-qa/${courseId}/${lessonId}`}
-                      idField={"id"}
-                    />
-                  </div>
-                </div>
-              )}
-            
+                )}
               </div>
             </form>
           </div>

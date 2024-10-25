@@ -61,6 +61,12 @@ const EdirQAStyleWrapper = styled.div`
       margin-top: 15px;
     }
   }
+  @media only screen and (max-width: 999px) {
+    .discriptionQuill {
+      width: 100%;
+    }
+  
+  }
 `;
 
 export default EdirQAStyleWrapper;

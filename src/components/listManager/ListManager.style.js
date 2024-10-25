@@ -9,6 +9,11 @@ const QATypeListStyleWrapper = styled.div`
     margin: 0;
   }
 
+  .des {
+    width: 50%;
+    overflow: hidden;
+    width: 300px;
+  }
   .ranking_list_item {
     display: flex;
     align-items: center;
@@ -30,6 +35,8 @@ const QATypeListStyleWrapper = styled.div`
       }
       &:nth-child(2) {
         width: 50%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
       &:nth-child(3) {
         width: 15%;

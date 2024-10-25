@@ -32,7 +32,7 @@
 }
 
 .Wizard-Content .Content {
-  width: calc(50vw - 20vw);
+  width: calc(50vw - 10vw);
 }
 
 .Wizard-Content .Content * {
@@ -89,6 +89,7 @@ input[type="checkbox"] + label {
 
 .button {
   display: flex;
+  flex-wrap: wrap;
   justify-content: end;
   margin-top: 50px;
 }
@@ -100,5 +101,10 @@ input[type="checkbox"] + label {
   .Wizard-Content .Content {
     width: 70vw;
     margin-bottom: 50px;
+  }
+  .button {
+    flex-direction: column;
+    width: 70vw;
+    align-items: center;
   }
 }

@@ -7,7 +7,7 @@ const ProfileDetailsStyleWrapper = styled.div`
   p {
     margin-bottom: 26px;
   }
-    
+
   .left_content_thumb {
     width: 200px;
     height: 208px;
@@ -110,6 +110,18 @@ const ProfileDetailsStyleWrapper = styled.div`
       li {
         font-size: 14px;
       }
+    }
+    .left_content_thumb {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .left-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-wrap: wrap;
     }
   }
 `;

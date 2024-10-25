@@ -1,5 +1,5 @@
 // EditProfileDetails.js
-import React, { useRef, useState , useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import EditProfileDetailsStyleWrapper from "./EditProfileDetails.style";
 import CountrySelector from "components/CountrySelector/CounterSelector.jsx";
 import thumb from "assets/images/team/teamBig.png";
@@ -10,7 +10,7 @@ import twitterIcon from "assets/images/icons/twitter.svg";
 import discordIcon from "assets/images/icons/discord.svg";
 import CropImage from "components/cropImage/CropImage.jsx";
 import { uploadImage } from "utils/UploadImage";
-import { updateUserProfile , getUserProfile } from "apiService"; 
+import { updateUserProfile, getUserProfile } from "apiService";
 import Swal from "sweetalert2";
 
 const EditProfileDetails = () => {
@@ -26,7 +26,6 @@ const EditProfileDetails = () => {
     twitter: "",
     linkedin: "",
     image: "",
-    score:123456
   });
 
   const handleCountryChange = (selectedCountry) => {
@@ -57,8 +56,8 @@ const EditProfileDetails = () => {
     fileInputRef.current.click();
   };
   /**
-   * this for update profile 
-  */
+   * this for update profile
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     const filteredFormInput = {
@@ -71,7 +70,7 @@ const EditProfileDetails = () => {
       twitter: formInput.twitter,
       linkedin: formInput.linkedin,
       image: formInput.image,
-      score: formInput.score
+      //score: formInput.score
     };
     try {
       const updatedUser = await updateUserProfile(filteredFormInput);
@@ -92,22 +91,21 @@ const EditProfileDetails = () => {
     }
   };
 
-/**
- * this To bring all the lessons from the back end
-*/
-useEffect(() => {
-  const getUser = async () => {
-    try {
-      const response = await getUserProfile();
-      setFormInput(response.data); 
-    } catch (error) {
-      console.error("Error fetching get user:", error);
-    }
-  };
+  /**
+   * this To bring all the lessons from the back end
+   */
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await getUserProfile();
+        setFormInput(response.data);
+      } catch (error) {
+        console.error("Error fetching get user:", error);
+      }
+    };
 
-  getUser();
-}, []);  // المصفوفة الفارغة لمنع استدعاء متكرر
-
+    getUser();
+  }, []); // المصفوفة الفارغة لمنع استدعاء متكرر
 
   return (
     <>
@@ -121,15 +119,17 @@ useEffect(() => {
             <div className="left-content">
               <div className="left_content_thumb">
                 <img
-                  src={formInput.image ? formInput.image : thumb}
+                  src={formInput.image || thumb}
                   style={{
-                    padding: image === null ? "50px" : "0",
-                    width: image === null ? "" : "100%",
-                    height: image === null ? "" : "100%",
-                    objectFit: "cover",
+                    width: formInput.image ? "100%" : "100px",
                   }}
                   alt="team thumb"
                   className="img-fuild"
+                  onError={(e) => {
+                    if (e.target.src !== thumb) {
+                      e.target.src = thumb;
+                    }
+                  }}
                 />
               </div>
               <div className="left-content-butt">
@@ -262,11 +262,7 @@ useEffect(() => {
             </div>
           </div>
           <div className="mt-3 btu">
-            <Button
-              variant="mint"
-              cust
-              onClick={handleSubmit} 
-            >
+            <Button variant="mint" cust onClick={handleSubmit}>
               Save Change
             </Button>
           </div>

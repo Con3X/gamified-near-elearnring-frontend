@@ -9,7 +9,7 @@ export default function Answare({
   handleCheckboxChange,
 }) {
   return (
-    <div className="d-flex">
+    <div className="content">
       <input
         id={id}
         className="answare"

@@ -7,14 +7,17 @@ import EditQA from "sections/QA/EditQA";
 import { useParams } from "react-router-dom";
 
 export default function EditQaPage() {
-  const { courseId, lessonId , qaId } = useParams();
+  const { courseId, lessonId, qaId } = useParams();
   return (
     <Fragment>
       <Layout>
         <GlobalStyles />
         <Header />
-        <PageHeader currentPage="Add Course Info" pageTitle="Edit Q/A" />
-        <EditQA courseId={courseId} lessonId={lessonId} qaId={qaId}/>
+        <PageHeader
+          currentPage="Add Course Info"
+          pageTitle={`${qaId === undefined ? "Add" : "Edit"} Q/A`}
+        />
+        <EditQA courseId={courseId} lessonId={lessonId} qaId={qaId} />
       </Layout>
     </Fragment>
   );

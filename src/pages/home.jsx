@@ -5,6 +5,7 @@ import Banner from "sections/Banner/v1";
 import Header from "sections/Header/v1";
 import LatestCourses from "sections/Home/LatestCourse/LatestCourse";
 import CoursesList from "sections/Home/Courses/CoursesList";
+import Footer from "sections/Footer/v1";
 
 export default function HomePage() {
   return (
@@ -15,6 +16,7 @@ export default function HomePage() {
         <Banner />
         <LatestCourses />
         <CoursesList />
+        <Footer />
       </Layout>
     </Fragment>
   );

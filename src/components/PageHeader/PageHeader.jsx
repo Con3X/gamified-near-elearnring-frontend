@@ -1,6 +1,7 @@
 import titleShape from "assets/images/icons/steps.png";
 import PageHeaderStyleWrapper from "./PageHeader.style";
 import shareIcon from "assets/images/icons/shareIcon.png";
+import { Link } from "react-router-dom";
 
 const PageHeader = ({ currentPage, pageTitle, isShowShareIcon }) => {
   return (
@@ -11,7 +12,7 @@ const PageHeader = ({ currentPage, pageTitle, isShowShareIcon }) => {
             <div className="breadcrumb_area">
               <div className="breadcrumb_menu">
                 <>
-                  <a href="# ">Home</a> <span>.</span>{" "}
+                  <Link to="/">Home</Link> <span>.</span>{" "}
                   {currentPage && currentPage}
                 </>
                 <img
@@ -28,10 +29,10 @@ const PageHeader = ({ currentPage, pageTitle, isShowShareIcon }) => {
           {isShowShareIcon && (
             <div className="col-lg-7">
               <div className="share">
-                <a href="#">
+                <Link to="#">
                   <img src={shareIcon} width={20} alt="" />
                   <span>SHARE</span>
-                </a>
+                </Link>
               </div>
             </div>
           )}

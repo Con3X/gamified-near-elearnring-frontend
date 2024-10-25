@@ -41,7 +41,7 @@ import GuardUrl from "components/GuardUrl/GuardUrl";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomeOne />} exact />
+      <Route path="/" element={<HomePage />} exact />
       <Route path="/home-two" element={<HomeTwo />} />
       <Route path="/home-three" element={<HomeThree />} />
       <Route path="/projects-list" element={<ProjectsList />} />
@@ -164,15 +164,7 @@ function App() {
         }
       />
       <Route
-        path="/home"
-        element={
-          <GuardUrl>
-            <HomePage />
-          </GuardUrl>
-        }
-      />
-      <Route
-        path="/quiz/:lessonId"
+        path="/quiz/:courseId/:lectureId/:isNotStartCourse"
         element={
           <GuardUrl>
             <QuizPage />
