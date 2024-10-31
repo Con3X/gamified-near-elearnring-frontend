@@ -2,13 +2,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import EditProfileDetailsStyleWrapper from "./EditProfileDetails.style";
 import CountrySelector from "components/CountrySelector/CounterSelector.jsx";
-import thumb from "assets/images/team/teamBig.png";
 import Button from "components/button";
 import fbIcon from "assets/images/icons/facebook.svg";
 import linkedIcon from "assets/images/icons/linkedin.svg";
 import twitterIcon from "assets/images/icons/twitter.svg";
 import discordIcon from "assets/images/icons/discord.svg";
 import CropImage from "components/cropImage/CropImage.jsx";
+import userDefault from "assets/images/no-User.png";
 import { uploadImage } from "utils/UploadImage";
 import { updateUserProfile, getUserProfile } from "apiService";
 import Swal from "sweetalert2";
@@ -119,15 +119,13 @@ const EditProfileDetails = () => {
             <div className="left-content">
               <div className="left_content_thumb">
                 <img
-                  src={formInput.image || thumb}
-                  style={{
-                    width: formInput.image ? "100%" : "100px",
-                  }}
-                  alt="team thumb"
-                  className="img-fuild"
+                  src={formInput.image || userDefault}
+                  alt="player-image"
+                  className="player-image"
+                  width="100%"
                   onError={(e) => {
-                    if (e.target.src !== thumb) {
-                      e.target.src = thumb;
+                    if (e.target.src !== userDefault) {
+                      e.target.src = userDefault;
                     }
                   }}
                 />

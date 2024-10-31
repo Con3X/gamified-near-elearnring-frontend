@@ -30,11 +30,11 @@ const ProgressBarStyle = styled.div`
       background-size: 14px 32px;
       background-image: linear-gradient(
         60deg,
-        #a3ff12 26%,
+        var(--green-color) 26%,
         transparent 25%,
         transparent 50%,
-        #a3ff12 54%,
-        #a3ff12 82%,
+        var(--green-color) 54%,
+        var(--green-color) 82%,
         transparent 75%,
         transparent
       );

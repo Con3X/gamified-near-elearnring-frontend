@@ -139,7 +139,7 @@ const FarmCardStyleWrapper = styled.div`
       margin-top: 30px;
 
       span {
-        color: #a3ff12;
+        color: var(--green-color);
         font-size: 22px;
         font-family: "Russo One", sans-serif;
       }
@@ -157,7 +157,7 @@ const FarmCardStyleWrapper = styled.div`
     column-gap: 20px;
     padding: 0 25px 25px 25px;
     a {
-      color: #a3ff12;
+      color: var(--green-color);
       font-size: 14px;
       display: flex;
       align-items: center;

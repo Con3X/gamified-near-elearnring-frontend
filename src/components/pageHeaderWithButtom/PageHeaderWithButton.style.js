@@ -16,7 +16,7 @@ const PageHeaderWithButtonStyleWrapper = styled.div`
       display: flex;
       align-items: center;
       font-size: 16px;
-      color: #a3ff12;
+      color: var(--green-color);
       a {
         color: rgba(255, 255, 255, 0.7);
         text-decoration: none;
@@ -58,7 +58,7 @@ const PageHeaderWithButtonStyleWrapper = styled.div`
         width: 300px;
         padding: 11px 50px 11px 20px;
         color: rgba(255, 255, 255, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid var(--secondary-color);
 
         &:focus {
           outline: none;

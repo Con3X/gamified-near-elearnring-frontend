@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const FAQStyleWrapper = styled.section`
-  background: #090a1a;
+  background: var(--primary-background-color);
   padding-top: 0px;
   padding-bottom: 105px;
 
@@ -81,7 +81,7 @@ const FAQStyleWrapper = styled.section`
     font-size: 16px;
     a {
       font-size: 16px;
-      color: #a3ff12;
+      color: var(--green-color);
     }
   }
 

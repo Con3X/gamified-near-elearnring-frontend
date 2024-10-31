@@ -13,7 +13,7 @@ from {
 
 const ProjectClassicStyleWrapper = styled.section`
   height: auto;
-  background: #090a1a;
+  background: var(--primary-background-color);
   position: relative;
   padding: 80px 0 0;
 

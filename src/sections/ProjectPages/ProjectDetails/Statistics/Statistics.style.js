@@ -34,7 +34,7 @@ const StatisticsStyleWrapper = styled.section`
       top: 9px;
       content: "";
       border-radius: 50%;
-      background: #a3ff12;
+      background: var(--green-color);
     }
     &:nth-child(2) {
       &::before {

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const IGORankingStyleWrapper = styled.div`
   padding: 120px 0 100px;
-  background: #090a1a;
+  background: var(--primary-background-color);
 
   .ranking_list {
     display: block;

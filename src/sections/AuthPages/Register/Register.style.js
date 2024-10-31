@@ -3,7 +3,7 @@ import formShadow from "assets/images/kycimg/BlurShadow.svg";
 import formBg from "assets/images/kycimg/signUpBgimage.svg";
 
 const RegisterStyleWrapper = styled.div`
-  background: #090a1a;
+  background: var(--primary-background-color);
   position: relative;
   padding: 96px 0px 0px 0px;
 

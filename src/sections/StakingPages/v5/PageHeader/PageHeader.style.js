@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const PageHeaderStyleWrapper = styled.div`
-  background: #090a1a;
+  background: var(--primary-background-color);
   padding: 80px 0 50px;
 
   .breadcrumb_area {
@@ -12,7 +12,7 @@ const PageHeaderStyleWrapper = styled.div`
       display: flex;
       align-items: center;
       font-size: 16px;
-      color: #a3ff12;
+      color: var(--green-color);
       a {
         color: rgba(255, 255, 255, 0.7);
         text-decoration: none;

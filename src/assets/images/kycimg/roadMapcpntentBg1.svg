@@ -1,6 +1,6 @@
 <svg width="470" height="253" viewBox="0 0 470 253" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_b_6_2937)">
-<path d="M470 0V49.4L447 0H470Z" fill="#A3FF12" fill-opacity="0.3"/>
+<path d="M470 0V49.4L447 0H470Z" fill="var(--green-color)" fill-opacity="0.3"/>
 </g>
 <g filter="url(#filter1_b_6_2937)">
 <path d="M0 0V253H470V70.7L437 0H0Z" fill="#1E1F35" fill-opacity="0.8"/>

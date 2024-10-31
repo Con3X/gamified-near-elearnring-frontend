@@ -1,7 +1,7 @@
 import { authFetch, isTokenValid } from "./utils/ProviderAuth";
 import { jwtDecode } from "jwt-decode";
 
-const API_BASE_URL = "https://gamify-near-backend.highcoiny.com";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 /**
  * this for extract user id from token by jwt-decode library
@@ -31,7 +31,8 @@ const getUserIdFromToken = () => {
  * @returns data from backend
  */
 export const updateUserProfile = async (userData) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
@@ -58,45 +59,13 @@ export const updateUserProfile = async (userData) => {
  * @method isTokenValid To verify the current session
  * @returns data from backend
  */
-export const getUserProfile = async () => {
-
-  if(!isTokenValid()){
-    return;
-  }
-try {
-  const userId = getUserIdFromToken(); // Get the user ID from the token
-
-  const response = await authFetch(`${API_BASE_URL}/users/${userId}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    
-  });
-
-  if (response.message !== "find one user") {
-    throw new Error('Error GET User');
-  }
-  return response;
-
-} catch (error) {
-  console.error('Error in getUserProfile:', error);
-  throw error;
-}
-};
-
-/**
- * this function for get all Course 
- * @method isTokenValid To verify the current session
- * @returns data from backend 
- */
-export const getAllCourse = async () => {
-  if(!isTokenValid()){
+export const getUserProfile = async (playerId) => {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
-    const userId = getUserIdFromToken(); // Get the user ID from the token
-
+    const userId = playerId || getUserIdFromToken(); // Get the user ID from the token
     const response = await authFetch(`${API_BASE_URL}/users/${userId}`, {
       method: "GET",
       headers: {
@@ -115,71 +84,109 @@ export const getAllCourse = async () => {
 };
 
 /**
+ * this function for get all Course
+ * @method isTokenValid To verify the current session
+ * @returns data from backend
+ */
+export const getAllCourse = async () => {
+  const isValid = await isTokenValid();
+  if (!isValid) {
+    return;
+  }
+  try {
+    const userId = getUserIdFromToken(); // Get the user ID from the token
+
+    const response = await authFetch(
+      `${API_BASE_URL}/courses/teacher/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.message !== "findAll") {
+      throw new Error("Error GET User");
+    }
+    return response;
+  } catch (error) {
+    console.error("Error in getUserProfile:", error);
+    throw error;
+  }
+};
+
+/**
  * this function for get all Course by status for Admin
  * @method isTokenValid To verify the current session
- * @returns data from backend 
+ * @returns data from backend
  */
 export const getAllCourseByStatus = async () => {
-  if(!isTokenValid()){
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
     const response = await authFetch(`${API_BASE_URL}/courses/status/ALL`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-      }
+        "Content-Type": "application/json",
+      },
     });
 
     if (response.message !== "findAll satatus") {
-      throw new Error('Error GET course');
+      throw new Error("Error GET course");
     }
     return response;
   } catch (error) {
-    console.error('Error in GET course:', error);
+    console.error("Error in GET course:", error);
     throw error;
   }
 };
-
 
 /**
  * this function for status updated Course from Admin
- * @param courseData This parameter holds the data that will be transferred to the back end. 
+ * @param courseData This parameter holds the data that will be transferred to the back end.
  * @param courseId this parameter for course id.
  * @method isTokenValid To verify the current session
- * @returns data from backend 
+ * @returns data from backend
  */
-export const updateCourseStatus = async (courseData , courseId) => {
-  if(!isTokenValid()){
+export const updateCourseStatus = async (courseData, courseId) => {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
-    const response = await authFetch(`${API_BASE_URL}/courses/status/${courseId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(courseData),
-    });
+    const response = await authFetch(
+      `${API_BASE_URL}/courses/status/${courseId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(courseData),
+      }
+    );
 
     if (response.message !== "status updated") {
-      throw new Error('Error status updated course');
+      throw new Error("Error status updated course");
     }
     return response;
   } catch (error) {
-    console.error('Error in status updated course:', error);
+    console.error("Error in status updated course:", error);
     throw error;
   }
 };
 
 /**
- * this function for get Course By Id 
+ * this function for get Course By Id
  * @param courseId this parameter for course id.
  * @method isTokenValid To verify the current session
  * @returns data from backend
  */
 export const getCourseById = async (courseId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
@@ -207,10 +214,10 @@ export const getCourseById = async (courseId) => {
  * @returns data from backend
  */
 export const createCourse = async (courseData) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
-
   try {
     const response = await authFetch(`${API_BASE_URL}/courses`, {
       method: "POST",
@@ -221,7 +228,7 @@ export const createCourse = async (courseData) => {
     });
 
     if (response.message !== "created") {
-      throw new Error("Error creating course");
+      throw new Error("Error creating course", { cause: await response.json() });
     }
     return response;
   } catch (error) {
@@ -238,7 +245,8 @@ export const createCourse = async (courseData) => {
  * @returns data from backend
  */
 export const updateCourse = async (courseData, courseId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
 
@@ -252,11 +260,11 @@ export const updateCourse = async (courseData, courseId) => {
     });
 
     if (response.message !== "updated") {
-      throw new Error('Error updated course');
+      throw new Error("Error updated course");
     }
     return response;
   } catch (error) {
-    console.error('Error in updated course:', error);
+    console.error("Error in updated course:", error);
     throw error;
   }
 };
@@ -268,7 +276,8 @@ export const updateCourse = async (courseData, courseId) => {
  * @returns data from backend
  */
 export const createLesson = async (lessonData, courseId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
 
@@ -302,7 +311,8 @@ export const createLesson = async (lessonData, courseId) => {
  * @returns data from backend
  */
 export const updateLesson = async (lessonData, courseId, lessonId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
 
@@ -335,7 +345,8 @@ export const updateLesson = async (lessonData, courseId, lessonId) => {
  * @returns data from backend
  */
 export const getAllLesson = async (courseId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
 
@@ -368,7 +379,8 @@ export const getAllLesson = async (courseId) => {
  * @returns data from backend
  */
 export const getLessonById = async (courseId, lessonId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
 
@@ -400,7 +412,8 @@ export const getLessonById = async (courseId, lessonId) => {
  * @returns data from backend
  */
 export const createQA = async (qaData, courseId, lessonId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
@@ -433,10 +446,10 @@ export const createQA = async (qaData, courseId, lessonId) => {
  * @returns data from backend
  */
 export const updateQA = async (qaData, courseId, lessonId, qaId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
-
   try {
     const response = await authFetch(
       `${API_BASE_URL}/course/${courseId}/lecture/${lessonId}/questions/${qaId}`,
@@ -467,10 +480,10 @@ export const updateQA = async (qaData, courseId, lessonId, qaId) => {
  * @returns data from backend
  */
 export const findQA = async (courseId, lessonId, qaId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
-
   try {
     const response = await authFetch(
       `${API_BASE_URL}/course/${courseId}/lecture/${lessonId}/questions/${qaId}`,
@@ -500,7 +513,8 @@ export const findQA = async (courseId, lessonId, qaId) => {
  * @returns data from backend
  */
 export const updateOrderLesson = async (data, courseId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
 
@@ -532,7 +546,8 @@ export const updateOrderLesson = async (data, courseId) => {
  * @returns data from backend
  */
 export const getLatestCourses = async () => {
-  if (!isTokenValid(false)) {
+  const isValid = await isTokenValid(false);
+  if (!isValid) {
     return;
   }
   try {
@@ -589,7 +604,8 @@ export const getAllCourses = async () => {
  * @returns data from backend
  */
 export const getAllLectureForCourse = async (courseId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
@@ -621,7 +637,8 @@ export const getAllLectureForCourse = async (courseId) => {
  * @returns data from backend
  */
 export const getAllQustionForLecture = async (courseId, lectureId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
@@ -652,7 +669,8 @@ export const getAllQustionForLecture = async (courseId, lectureId) => {
  * @param lectureId this parameter for lecture id.
  */
 export const createStartUserLectureInCourse = async (courseId, lectureId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
@@ -666,9 +684,6 @@ export const createStartUserLectureInCourse = async (courseId, lectureId) => {
       }
     );
 
-    if (response.status !== 409) {
-      throw new Error("Error Create Start In Lecture ");
-    }
     return response;
   } catch (error) {
     console.error("Error Create Start In Lecture:", error);
@@ -683,7 +698,8 @@ export const createStartUserLectureInCourse = async (courseId, lectureId) => {
  * @param lectureId this parameter for lecture id.
  */
 export const updateFinishLectureInCourse = async (courseId, lectureId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
@@ -713,7 +729,8 @@ export const updateFinishLectureInCourse = async (courseId, lectureId) => {
  * @param courseId this parameter for course id.
  */
 export const createStartInCourse = async (courseId) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
@@ -743,7 +760,7 @@ export const createStartInCourse = async (courseId) => {
  * @param courseId this parameter for course id.
  * @param lectureId this parameter for lecture id.
  * @param qustionId this parameter for qustion id.
- * @param answerIds this parameter for answare id checked.
+ * @param answerIds this parameter for answer id checked.
  */
 export const checkAnswer = async (
   courseId,
@@ -751,7 +768,8 @@ export const checkAnswer = async (
   qustionId,
   answerIds
 ) => {
-  if (!isTokenValid()) {
+  const isValid = await isTokenValid();
+  if (!isValid) {
     return;
   }
   try {
@@ -762,16 +780,127 @@ export const checkAnswer = async (
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(answerIds),
+        body: JSON.stringify({ answerId: answerIds }),
       }
     );
 
-    if (response.mess !== "answered") {
+    if (response.message !== "answered") {
       throw new Error("Error check answered");
     }
     return response;
   } catch (error) {
     console.error("Error in check answered:", error);
+    throw error;
+  }
+};
+
+/**
+ * this function for search on courses
+ * @param text this parameter for course id.
+ */
+export const searchOnCourses = async (text) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/courses/full-search/${text}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error search on courses");
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error in Search on Courses", error);
+    throw error;
+  }
+};
+
+/**
+ * this function for get all palyers
+ * @returns data from backend
+ */
+export const getAllPlayers = async () => {
+  try {
+    const response = await authFetch(`${API_BASE_URL}/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.message !== "findAll") {
+      throw new Error("Error in get players");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error in get players:", error);
+    throw error;
+  }
+};
+
+/**
+ * this function for get current ngcs
+ * @returns data from backend
+ */
+export const getCurrentNgcs = async () => {
+  const isValid = await isTokenValid(false);
+  if (!isValid) {
+    return;
+  }
+  try {
+    const response = await authFetch(`${API_BASE_URL}/users/ngcs`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.message !== "found") {
+      throw new Error("Error in get current ngcs");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error in get current ngcs:", error);
+    throw error;
+  }
+};
+
+/**
+ * this function for claims ngcs
+ * @method isTokenValid To verify the current session
+ * @param courseId this parameter for course id.
+ */
+export const claimsNgcs = async (ngcs) => {
+  const isValid = await isTokenValid();
+  if (!isValid) {
+    return;
+  }
+  try {
+    const response = await authFetch(`${API_BASE_URL}/users/ngcs`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ngcs: ngcs }),
+    });
+
+    if (response.message !== "found") {
+      throw new Error("Error in claims ngcs");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error in claims ngcs:", error);
     throw error;
   }
 };

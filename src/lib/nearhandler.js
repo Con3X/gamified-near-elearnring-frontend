@@ -11,10 +11,78 @@ import Swal from "sweetalert2";
 export const selector = await setupWalletSelector({
   network: "testnet",
   languageCode: "en",
-  modules: [setupNightly(), setupMeteorWallet()],
+  modules: [
+    setupNightly(),
+    setupMeteorWallet(),
+    // TODO: add the setup for HereWallet once the related issue is resolved: https://github.com/here-wallet/js-sdk/issues/4
+    // setupHereWallet(),
+  ],
 });
 
 export const modal = setupModal(selector, {});
+
+// TODO: refactor once of those issues are done: https://github.com/near/wallet-selector/issues/1223 or https://github.com/near/wallet-selector/issues/1224
+function appendPrivacyPolicyText() {
+  const tryAppendingTextNode = setInterval(() => {
+    try {
+      const privacyPolicy = document.createElement("div");
+      privacyPolicy.className = "privacy-policy-div";
+      privacyPolicy.innerHTML =
+        '<b style="color:red;">By using our service you automatically acknowledge and agree to our <a href="/privacy-policy">Privacy Policy</a> \
+and our <a href="/legal-disclaimer">Legal Disclaimer</a>.</b>';
+      const wrapper = document.getElementsByClassName("nws-modal-body")[0];
+      // const style = document.createElement("style");
+      // style.innerHTML = ".modal-right {padding-top:6px:} ";
+      if (wrapper) {
+        if (
+          document.getElementsByClassName("privacy-policy-div").length === 0
+        ) {
+          // document.head.appendChild(style);
+          wrapper.append(privacyPolicy);
+        }
+        clearInterval(tryAppendingTextNode); // Stop trying if successful
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }, 200);
+}
+
+async function retryUntilSuccess(
+  fn,
+  shouldAbort,
+  maxAttempts = 100,
+  delay = 1000
+) {
+  let attempts = 0;
+  let shouldAbortOnNextFail = false;
+  while (attempts < maxAttempts) {
+    try {
+      // Check if the operation should be aborted
+      if (shouldAbort()) {
+        shouldAbortOnNextFail = true;
+      }
+
+      return await fn();
+    } catch (error) {
+      attempts++;
+      console.log(`Attempt ${attempts} failed: ${error.message}`);
+
+      if (shouldAbortOnNextFail) {
+        console.log(`Attempts aborted!`);
+        return;
+      }
+
+      if (attempts >= maxAttempts) {
+        console.log("Max attempts reached. Giving up.");
+        throw error; // Re-throw the exception if max attempts are reached
+      }
+
+      // Wait for the specified delay before the next attempt
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+}
 
 /**
  * This is the general function that the application will work on and is linked to the connect button.
@@ -22,10 +90,30 @@ export const modal = setupModal(selector, {});
  * @method show  displays the frame for selecting the governorate.
  * @method getAccounts Extracts wallet addresses to link to.
  */
-export const handleNearLogin = async () => {
+export const handleNearLogin = async (navigate, setButtonText, setIsValid) => {
   try {
     modal.show();
-    const wallet = await selector.wallet();
+    appendPrivacyPolicyText();
+
+    console.log("Connecting...");
+
+    let stopWaitingForWallet = false;
+    modal.on("onHide", () => {
+      stopWaitingForWallet = true;
+    });
+
+    const wallet = await retryUntilSuccess(
+      async () => await selector.wallet(),
+      () => stopWaitingForWallet,
+      1000,
+      500
+    );
+    if (!wallet) {
+      return;
+    }
+
+    setButtonText("Processing");
+
     const accounts = await wallet.getAccounts();
     const accountId = accounts[0]?.accountId;
     const publicKey = accounts[0]?.publicKey;
@@ -49,11 +137,15 @@ export const handleNearLogin = async () => {
         throw new Error("Invalid nonce length. It must be exactly 32 bytes.");
       }
 
+      setButtonText("Sign");
+
       const { signature } = await wallet.signMessage({
         message: localMessage,
         nonce: nonce,
         recipient: accountId,
       });
+
+      console.log("user has signed the local message", signature);
 
       localStorage.setItem(
         "nearSignature",
@@ -70,7 +162,7 @@ export const handleNearLogin = async () => {
      */
 
     const response = await fetch(
-      "https://gamify-near-backend.highcoiny.com/auth/challenge",
+      `${process.env.REACT_APP_API_BASE_URL}/auth/challenge`,
       {
         method: "GET",
         headers: {
@@ -87,21 +179,23 @@ export const handleNearLogin = async () => {
     const challengeMessage = data.message;
     const backendNonce = data.challenge;
 
+    setButtonText("Login");
+
     //Sign message from Backend
     const { signature: backendSignature } = await wallet.signMessage({
       message: challengeMessage,
       nonce: Buffer.from(backendNonce, "base64"),
       recipient: accountId,
     });
+    console.log("user has signed the backend message", backendSignature);
 
     /**
      * Send data to the back end, receive the token and save it in the local storage by react-token-auth library
      * step 3
      */
-
     //Send Data To Backend
     const verifyResponse = await fetch(
-      "https://gamify-near-backend.highcoiny.com/auth/signup",
+      `${process.env.REACT_APP_API_BASE_URL}/auth/signup`,
       {
         method: "POST",
         headers: {
@@ -127,10 +221,13 @@ export const handleNearLogin = async () => {
         text: "Registration has been completed successfully.!",
       });
       if (localStorage.getItem("firstLogin") === "true") {
-        window.location.replace("/wizard");
+        navigate("/wizard");
       } else {
-        window.location.replace("/");
+        setButtonText("Connected");
+        setIsValid(true);
+        navigate("/");
       }
+      modal.hide();
     } else {
       console.log("Signature verification failed");
       Swal.fire({
@@ -141,6 +238,17 @@ export const handleNearLogin = async () => {
     }
   } catch (error) {
     console.error("Operation error : ", error.message);
+  }
+};
+
+export const handleNearLogout = async () => {
+  try {
+    const wallet = await selector.wallet();
+    await wallet.signOut();
+
+    window.location.replace("/");
+  } catch (error) {
+    console.error("Logout error: ", error.message);
   }
 };
 

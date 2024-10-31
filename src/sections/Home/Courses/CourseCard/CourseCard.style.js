@@ -3,19 +3,25 @@ import styled from "styled-components";
 
 const CourseCardStyleWrapper = styled.div`
   padding: 30px 30px 10px;
-  background: rgba(30, 31, 53, 0.8);
+  background: var(--card-background-color);
   transition: all 0.4s;
   position: relative;
   z-index: 2;
   margin-top: 50px;
   overflow: hidden;
 
+  a {
+      color: #ffffff;
+      text-decoration: none;  
+    }
+
+a:hover {
+  color: #ffffff;
+}
   .course-info {
     margin-bottom: 10px;
     column-gap: 20px;
-    a {
-      color: #ffffff;
-    }
+    
 
     .course-auother {
       white-space: nowrap;
@@ -30,9 +36,10 @@ const CourseCardStyleWrapper = styled.div`
     border-radius: 5px;
   }
   .course-content {
+   margin-bottom: 25px;
     .course-header {
       position: relative;
-      margin-bottom: 25px;
+      
 
       &::before {
         position: absolute;
@@ -68,6 +75,34 @@ const CourseCardStyleWrapper = styled.div`
       opacity: 1;
       visibility: visible;
     }
+  }
+  .stars-rating{
+    font-size: 22px;
+  }
+  .tag-content {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-top: 8px;
+    height: 25.6px;
+  }
+
+  .tag-content .text-content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .rating-div {
+    margin-bottom: 10px;
+    cursor pointer;
+    display: flex;
+    justify-content: end;
+  }
+
+  .tag-content img {
+    position: absolute;
+    right: -40px;
   }
 
   .links {

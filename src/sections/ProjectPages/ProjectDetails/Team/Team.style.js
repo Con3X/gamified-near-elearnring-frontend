@@ -1,7 +1,7 @@
-import styled from "styled-components"; 
+import styled from "styled-components";
 
 const TeamStyleWrapper = styled.section`
-  background-color: #090a1a;  
+  background-color: var(--primary-background-color);
 
   .section_title {
     text-align: center;

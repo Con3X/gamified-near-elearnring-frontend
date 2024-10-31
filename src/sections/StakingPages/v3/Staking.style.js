@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StakingStyleWrapper = styled.div`
-  background: #090a1a;
+  background: var(--primary-background-color);
   padding: 30px 0;
 
   .page_inner_row {

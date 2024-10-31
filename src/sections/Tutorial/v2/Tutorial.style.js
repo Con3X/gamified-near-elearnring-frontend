@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const TutorialStyleWrapper = styled.section`
-  background: #090a1a;
+  background: var(--primary-background-color);
   position: relative;
   display: flex;
   align-items: center;

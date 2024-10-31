@@ -69,10 +69,10 @@ const LinkStyle = styled.a`
   ${({ variant }) =>
     variant === "mint" &&
     css`
-      background: #a3ff12;
-      color: #090a1a;
+      background: var(--green-color);
+      color: var(--primary-background-color);
       &:hover {
-        color: #090a1a;
+        color: var(--primary-background-color);
       }
     `}
   ${({ variant }) =>
@@ -103,11 +103,11 @@ const LinkStyle = styled.a`
   ${({ variant }) =>
     variant === "white" &&
     css`
-      color: #090a1a;
+      color: var(--primary-background-color);
       background: #ffffff;
 
       &:hover {
-        color: #090a1a;
+        color: var(--primary-background-color);
       }
 
       .hover_shape_wrapper {
@@ -137,7 +137,7 @@ const LinkStyle = styled.a`
   ${({ sm }) =>
     sm &&
     css`
-      width: 120px;
+      width: 130px;
       height: 40px;
       @media only screen and (max-width: 768px) {
         width: 150px;

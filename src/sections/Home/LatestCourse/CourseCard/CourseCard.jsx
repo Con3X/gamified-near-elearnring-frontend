@@ -6,8 +6,8 @@ import fbIcon from "assets/images/icons/facebook.svg";
 import linkedIcon from "assets/images/icons/linkedin.svg";
 import twitterIcon from "assets/images/icons/twitter.svg";
 import discordIcon from "assets/images/icons/discord.svg";
-import photoDefault from "assets/images/photoDefault.webp";
-import userDefault from "assets/images/user.webp";
+import photoDefault from "assets/images/no-Course.png";
+import userDefault from "assets/images/no-User.png";
 import { Link } from "react-router-dom";
 
 const CourseCard = ({ data }) => {
@@ -28,7 +28,7 @@ const CourseCard = ({ data }) => {
   return (
     <CourseCardStyleWrapper className="in_preogress_courses_wrapper">
       <div className="container">
-        <h2 className="title">In Progress Courses</h2>
+        <h2 className="title">Courses In Progress</h2>
         <Slider {...sliderSettings}>
           {data?.map((courseDetail, i) => (
             <SliderItem key={i}>
@@ -38,18 +38,16 @@ const CourseCard = ({ data }) => {
                     <div className="total-price">
                       <div className="price-inner d-flex mb-45 md-mb-20">
                         <div className="image-icon">
-                          <Link to="/course-detials">
-                            <img
-                              src={courseDetail.course.logo || photoDefault}
-                              width={180}
-                              alt="course logo"
-                              onError={(e) => {
-                                if (e.target.src !== photoDefault) {
-                                  e.target.src = photoDefault;
-                                }
-                              }}
-                            />
-                          </Link>
+                          <img
+                            src={courseDetail.course.logo || photoDefault}
+                            width={180}
+                            alt="course logo"
+                            onError={(e) => {
+                              if (e.target.src !== photoDefault) {
+                                e.target.src = photoDefault;
+                              }
+                            }}
+                          />
                         </div>
                       </div>
                       <div className="all-raise">
@@ -79,7 +77,7 @@ const CourseCard = ({ data }) => {
                     <ProgressBar
                       progress={`${
                         (courseDetail.endedLecturesCount * 100) /
-                        courseDetail?.lecture?.length
+                        courseDetail?.course.lecture?.length
                       }%`}
                     />
                   </div>

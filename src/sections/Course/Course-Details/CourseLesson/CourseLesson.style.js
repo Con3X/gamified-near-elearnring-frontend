@@ -3,7 +3,7 @@ import itemStripShape from "assets/images/bg/roadmap_strip_shape.svg";
 
 const CourseLessonStyleWrapper = styled.div`
   padding: 100px 0 120px 0;
-  background: #090a1a;
+  background: var(--primary-background-color);
   position: relative;
 
   &::before {
@@ -15,7 +15,6 @@ const CourseLessonStyleWrapper = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    height: 1584px;
     content: "";
   }
 
@@ -40,7 +39,7 @@ const CourseLessonStyleWrapper = styled.div`
       top: -27px;
       width: 50px;
       height: 100px;
-      background: #090a1a;
+      background: var(--primary-background-color);
       content: "";
       z-index: 1;
       transform: rotate(150deg);
@@ -64,14 +63,14 @@ const CourseLessonStyleWrapper = styled.div`
 
     &.shape_active {
       &::after {
-        background: rgba(163, 255, 18, 0.3);
+        background: var(--green-color);
       }
     }
 
     .lesson_item_inner {
       position: relative;
       padding: 35px 39px 26px 39px;
-      background: rgba(30, 31, 53, 0.8);
+      background: var(--card-background-color);
       overflow: hidden;
       
       &::before {
@@ -112,7 +111,7 @@ const CourseLessonStyleWrapper = styled.div`
   }
 
   .active{
-    color: #a3ff12;
+    color: var(--green-color);
   }
 
   .arrow-down {

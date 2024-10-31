@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const CourseInfoStyleWrapper = styled.div`
-  background: #090b1a;
+  background: var(--primary-background-color);
   padding-top: 70px;
   padding-bottom: 140px;
   p {
@@ -95,7 +95,7 @@ const CourseInfoStyleWrapper = styled.div`
   }
 
   .ql-container {
-    height: 370px;
+    height: 465px;
   }
 
   @media only screen and (max-width: 999px) {

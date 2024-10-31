@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const ProjectDetailsStyleWrapper = styled.div`
   position: relative;
-  background: #090a1a;
+  background: var(--primary-background-color);
 
   .page_header_wrapper {
     position: absolute;

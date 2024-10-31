@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const EdirQAStyleWrapper = styled.div`
-  background: #090b1a;
+  background: var(--primary-background-color);
   padding-top: 70px;
   padding-bottom: 140px;
   p {
@@ -65,7 +65,6 @@ const EdirQAStyleWrapper = styled.div`
     .discriptionQuill {
       width: 100%;
     }
-  
   }
 `;
 

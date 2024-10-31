@@ -9,7 +9,7 @@ const CourseCardStyleWrapper = styled.section`
     padding: 50px;
     position: relative;
     z-index: 9;
-    background: radial-gradient(circle, #4a4176 -24%, #1e1f35 40%);
+    background: var(--card-background-color);
 
     &::before {
       position: absolute;
@@ -40,7 +40,7 @@ const CourseCardStyleWrapper = styled.section`
     display: flex;
     justify-content: center;
     margin: 100px 0 20px 0;
-    color: #a3ff12;
+    color: var(--green-color);
   }
 
   .targeted-raise {

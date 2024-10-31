@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import HomeOne from "pages/home-one";
 import HomeTwo from "pages/home-two";
 import HomeThree from "pages/home-three";
+import PrivacyPolicy from "pages/privacy-policy";
+import LegalDisclaimer from "pages/legal-disclaimer";
 import ProjectsClassic from "pages/projects-classic-1";
 import ProjectsList from "pages/projects-list";
 import ProjectsGrid from "pages/projects-grid";
@@ -31,12 +32,14 @@ import Wizard from "pages/Wizard";
 import CourseInfo from "pages/course-info";
 import LessonPage from "pages/lesson";
 import EditQaPage from "pages/edit-qa";
-import TeacherDashbordPage from "pages/teacher-dashbord";
+import TeacherDashboardPage from "pages/teacher-dashboard";
 import ShowLessonPage from "pages/show-lesson";
 import CourseDetailsPage from "pages/course-details";
 import HomePage from "pages/home";
 import QuizPage from "pages/quiz";
 import GuardUrl from "components/GuardUrl/GuardUrl";
+import PlayersPage from "pages/players";
+import LeaderBoardPage from "pages/leader-board";
 
 function App() {
   return (
@@ -44,6 +47,8 @@ function App() {
       <Route path="/" element={<HomePage />} exact />
       <Route path="/home-two" element={<HomeTwo />} />
       <Route path="/home-three" element={<HomeThree />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} exact />
+      <Route path="/legal-disclaimer" element={<LegalDisclaimer />} exact />
       <Route path="/projects-list" element={<ProjectsList />} />
       <Route path="/projects-classic-1" element={<ProjectsClassic />} />
       <Route path="/projects-grid" element={<ProjectsGrid />} />
@@ -68,7 +73,7 @@ function App() {
       <Route path="/team-details" element={<TeamDetails />} />
       <Route path="/contact" element={<Contact />} />
       <Route
-        path="/Profile"
+        path="/profile"
         element={
           <GuardUrl>
             <Profile />
@@ -148,10 +153,10 @@ function App() {
         }
       />
       <Route
-        path="/teacher-dashbord"
+        path="/teacher-dashboard"
         element={
           <GuardUrl>
-            <TeacherDashbordPage />
+            <TeacherDashboardPage />
           </GuardUrl>
         }
       />
@@ -168,6 +173,30 @@ function App() {
         element={
           <GuardUrl>
             <QuizPage />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/players"
+        element={
+          <GuardUrl>
+            <PlayersPage />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/player/:playerId"
+        element={
+          <GuardUrl>
+            <Profile />
+          </GuardUrl>
+        }
+      />
+      <Route
+        path="/leader-board"
+        element={
+          <GuardUrl>
+            <LeaderBoardPage />
           </GuardUrl>
         }
       />

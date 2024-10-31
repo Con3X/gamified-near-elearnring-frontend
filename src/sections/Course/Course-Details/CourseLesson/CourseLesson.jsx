@@ -64,7 +64,7 @@ const CourseLesson = ({ data }) => {
                       : ""
                   }`}
                 >
-                  point {data.question.length * 10}
+                  points {data.question.length * 10}
                 </h3>
                 {lessons.length - 1 !== i && <div className="arrow-down" />}
               </div>

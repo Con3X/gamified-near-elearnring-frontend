@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const EditProfileDetailsStyleWrapper = styled.div`
-  background: #090b1a;
+  background: var(--primary-background-color);
   padding-top: 70px;
   padding-bottom: 140px;
   p {

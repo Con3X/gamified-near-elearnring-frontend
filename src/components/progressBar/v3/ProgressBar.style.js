@@ -24,7 +24,7 @@ const ProgressBarStyle = styled.div`
       position: absolute;
       left: 0%;
       top: 0;
-      background-color: #a3ff12;
+      background-color: var(--green-color);
       background-image: linear-gradient(
         72deg,
         rgba(0, 0, 0, 0.2) 50%,

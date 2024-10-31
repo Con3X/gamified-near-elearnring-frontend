@@ -17,7 +17,7 @@ const SocialStyleWrapper = styled.section`
     flex-wrap: wrap;
     column-gap: 30px;
     row-gap: 20px;
-
+    
     a {
       color: #ffffff;
       background: url(${linkBgShape});

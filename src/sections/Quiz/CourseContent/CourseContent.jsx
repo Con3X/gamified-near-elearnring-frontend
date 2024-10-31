@@ -9,23 +9,51 @@ import {
   getAllQustionForLecture,
   createStartUserLectureInCourse,
   updateFinishLectureInCourse,
+  checkAnswer,
+  createStartInCourse,
 } from "apiService";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-export default function CourseContent({ courseId, lectureId }) {
+export default function CourseContent({
+  courseId,
+  lectureId,
+  isNotStartCourse,
+}) {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [isCorrect, setIsCorrect] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [answers, setAnswers] = useState([]);
   const [currentQuestionSequence, setCurrentQuestionSequence] = useState(1);
 
-  // Create User Lecture
+  // Create User Course And Lecture
   useEffect(() => {
+    const createStartCourse = async () => {
+      try {
+        await createStartInCourse(courseId);
+      } catch (error) {
+        console.error("Error in createStartCourse:", error);
+      }
+    };
+
     const createStartUserLecture = async () => {
       try {
         await createStartUserLectureInCourse(courseId, lectureId);
-      } catch {}
+      } catch (error) {
+        console.error("Error in createStartUserLecture:", error);
+      }
     };
-    createStartUserLecture();
-  }, [courseId, lectureId]);
+
+    const initiateCourseAndLecture = async () => {
+      if (isNotStartCourse === "true") {
+        await createStartCourse();
+      }
+      await createStartUserLecture();
+    };
+
+    initiateCourseAndLecture();
+  }, []);
 
   // Get Qustion For This Lecture
   useEffect(() => {
@@ -38,7 +66,7 @@ export default function CourseContent({ courseId, lectureId }) {
       }
     };
     fetchQuestion();
-  }, [courseId, lectureId]);
+  }, []);
 
   // Sort Qustion According By sequence
   const sortedQuestions = data.sort((a, b) => a.sequence - b.sequence);
@@ -48,7 +76,7 @@ export default function CourseContent({ courseId, lectureId }) {
     (question) => question.sequence === currentQuestionSequence
   );
 
-  // Handle Answare Change
+  // Handle Answer Change
   const handleAnswerChange = (id) => {
     const currentAnswers = [...selectedAnswers];
     if (currentAnswers.includes(id)) {
@@ -61,11 +89,47 @@ export default function CourseContent({ courseId, lectureId }) {
     }
   };
 
-  const handleCheckAnswers = () => {
-    // Get Correct Answare For Current Qustion
-    selectedAnswers.join(", ");
-    
-    // setIsCorrect(isAllCorrect);
+  const handleCheckAnswers = async () => {
+    // Get Correct Answer For Current Qustion
+    if (selectedAnswers.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Warning",
+        text: "Please select at least one correct answer before submitting.",
+      });
+      return;
+    }
+    const qustion = data.filter(
+      (qu) => qu.sequence === currentQuestionSequence
+    );
+    const qustionId = qustion[0].id;
+    try {
+      const answers = await checkAnswer(
+        courseId,
+        lectureId,
+        qustionId,
+        selectedAnswers
+      );
+      if (!answers.data) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: `${answers.message}`,
+        });
+      }
+      setAnswers(answers);
+      const correctAnswers = answers.data.correctAnswers
+        .filter((answer) => answer.is_correct)
+        .map((answer) => answer.id);
+
+      const isAllCorrect =
+        selectedAnswers.length === correctAnswers.length &&
+        selectedAnswers.every((id) => correctAnswers.includes(id));
+
+      setIsCorrect(isAllCorrect);
+    } catch (error) {
+      console.log(`Error on check answers ${error}`);
+    }
   };
 
   const handleNextQuestion = async () => {
@@ -79,7 +143,12 @@ export default function CourseContent({ courseId, lectureId }) {
 
     if (currentQuestionSequence === sortedQuestions.length) {
       await updateFinishLectureInCourse(courseId, lectureId);
-      alert("You are finish");
+      Swal.fire({
+        icon: "success",
+        title: "Congratulations!",
+        text: "You have successfully completed this lesson. Proceed to the next lesson to continue your progress.",
+      });
+      navigate(`/course-detials/${courseId}`);
     }
   };
 
@@ -103,7 +172,7 @@ export default function CourseContent({ courseId, lectureId }) {
               <CourseTitle
                 courseLogo={data[0]?.lecture.course.logo}
                 lessonNumber={data[0]?.lecture.order}
-                point={10}
+                points={10}
               />
               {/* End Title */}
               {/* Start Progress */}
@@ -119,11 +188,11 @@ export default function CourseContent({ courseId, lectureId }) {
                 </div>
               </div>
               {/* End Progress */}
-              {/* Start Section Answare */}
+              {/* Start Section Answer */}
               {isCorrect !== null && (
                 <div>
                   {isCorrect ? (
-                    <h4 style={{ color: "#a3ff12", width: "100%" }}>
+                    <h4 style={{ color: "var(--green-color)", width: "100%" }}>
                       <img src={correctIcon} width={30} alt="" />
                       Correct
                     </h4>
@@ -135,7 +204,7 @@ export default function CourseContent({ courseId, lectureId }) {
                       </h5>
                       <h6>Correct Answers:</h6>
                       <ul>
-                        {currentQuestion?.answer
+                        {answers?.data.correctAnswers
                           ?.filter((answer) => answer.is_correct)
                           .map((answer, index) => (
                             <li key={index}>{answer.description}</li>
@@ -149,32 +218,35 @@ export default function CourseContent({ courseId, lectureId }) {
               {isCorrect === null && (
                 <>
                   <h5>
-                    <div className="qustion-content"
+                    <div
+                      className="qustion-content"
                       dangerouslySetInnerHTML={{
                         __html: currentQuestion?.description,
                       }}
                     />
                   </h5>
 
-                  {currentQuestion?.answer?.map((answer) => (
-                    <div className="answare-option" key={answer.id}>
-                      <input
-                        type="checkbox"
-                        id={`option${answer.id}`}
-                        checked={selectedAnswers.includes(answer.id)}
-                        onChange={() => handleAnswerChange(answer.id)}
-                      />
-                      <label
-                        htmlFor={`option${answer.id}`}
-                        className="answare-button"
-                      >
-                        {answer.description}
-                      </label>
-                    </div>
-                  ))}
+                  {currentQuestion?.answer?.map((answer) =>
+                    answer.description.trim() ? (
+                      <div className="answer-option" key={answer.id}>
+                        <input
+                          type="checkbox"
+                          id={`option${answer.id}`}
+                          checked={selectedAnswers.includes(answer.id)}
+                          onChange={() => handleAnswerChange(answer.id)}
+                        />
+                        <label
+                          htmlFor={`option${answer.id}`}
+                          className="answer-button"
+                        >
+                          {answer.description}
+                        </label>
+                      </div>
+                    ) : null
+                  )}
                 </>
               )}
-              {/* End Section Answare */}
+              {/* End Section Answer */}
               {/* Start Check Button */}
               {isCorrect === null && (
                 <div
@@ -187,7 +259,7 @@ export default function CourseContent({ courseId, lectureId }) {
                   <button
                     onClick={handleCheckAnswers}
                     style={{
-                      background: "#a3ff12",
+                      background: "var(--green-color)",
                       padding: "5px 25px",
                       fontWeight: "bold",
                     }}
@@ -218,7 +290,7 @@ export default function CourseContent({ courseId, lectureId }) {
                     left: 0,
                   }}
                 >
-                  <h4>Next</h4>
+                  <h4>Next Question</h4>
                 </button>
               </div>
               {/* End Next Button */}

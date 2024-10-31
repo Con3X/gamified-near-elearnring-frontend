@@ -39,7 +39,7 @@ export default function CourseDetailsPage() {
         />
         <CourseHeader data={data} />
         <CourseLesson data={data} />
-        <CourseContent content={""} />
+        <CourseContent content={data[0]?.course?.description} />
       </Layout>
     </Fragment>
   );

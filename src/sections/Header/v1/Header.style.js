@@ -83,7 +83,7 @@ const NavWrapper = styled.nav`
 
         &:hover {
           a {
-            color: #a3ff12;
+            color: var(--green-color);
           }
         }
 
@@ -127,7 +127,7 @@ const NavWrapper = styled.nav`
               }
 
               &:hover {
-                color: #a3ff12;
+                color: var(--green-color);
               }
             }
 
@@ -203,7 +203,7 @@ const NavWrapper = styled.nav`
 
     /* dropdown btn  */
     .wallet_btn {
-      color: #a3ff12;
+      color: var(--green-color);
       position: relative;
       display: flex;
       justify-content: center;
@@ -214,12 +214,10 @@ const NavWrapper = styled.nav`
       text-transform: uppercase;
       transition: all 0.4s ease-in-out;
       box-sizing: border-box;
-      width: 120px;
-      height: 40px;
-      border: 2px solid #393941;
+      border: 2px solid var(--secondary-color);
       background: transparent;
       z-index: 1;
-      width: 170px;
+      width: 140px;
       height: 50px;
       cursor: pointer;
 
@@ -256,7 +254,7 @@ const NavWrapper = styled.nav`
       }
 
       &:hover {
-        color: #a3ff12;
+        color: var(--green-color);
         .wallet_token_list {
           opacity: 1;
           visibility: visible;

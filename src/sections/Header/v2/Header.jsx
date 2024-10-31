@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MdNotes,
   MdOutlineKeyboardArrowDown,
@@ -7,18 +7,33 @@ import {
 import NavWrapper from "./Header.style";
 import MobileMenu from "../MobileMenu/MobileMenu";
 import data from "assets/data/menu/menuData";
-import logo from "assets/images/logo.png";
+import logo from "assets/images/brand/Logo/Without-BG/Logo-5.png";
 import notificationIcon from "assets/images/icons/notification.png";
 import personIcon from "assets/images/icons/person.png";
-import treeIcon from "assets/images/icons/tree.png";
+import ngcIcons from "assets/images/brand/Logo/Without-BG/Logo-3-Size/32.png";
 import { Link } from "react-router-dom";
-
+import { getCurrentNgcs } from "apiService";
 const Header = () => {
   const [isMobileMenu, setMobileMenu] = useState(false);
-
+  const [points, setPoints] = useState(0);
   const handleMobileMenu = () => {
     setMobileMenu(!isMobileMenu);
   };
+
+  useEffect(() => {
+    const getCurrNgcs = async () => {
+      try {
+        const result = await getCurrentNgcs();
+        if(result) {
+          setPoints(result.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getCurrNgcs();
+  }, []);
 
   return (
     <NavWrapper className="gamfi_header" id="navbar">
@@ -38,14 +53,17 @@ const Header = () => {
                 {/* menu  */}
                 {data?.map((menu, i) => (
                   <li key={i}>
-                    <Link to={menu.url}>
-                      {menu.title}{" "}
-                      {menu.subMenus?.length > 0 && (
-                        <MdOutlineKeyboardArrowDown />
-                      )}
-                    </Link>
+                    {menu.action ? (
+                      <Link onClick={menu.action}>{menu.title}</Link>
+                    ) : (
+                      <Link to={menu.url}>
+                        {menu.title}{" "}
+                        {menu.subMenus?.length > 0 && (
+                          <MdOutlineKeyboardArrowDown />
+                        )}
+                      </Link>
+                    )}
 
-                    {/* if has subMenu and length is greater than 0 */}
                     {menu.subMenus?.length > 0 && (
                       <ul className="sub_menu_list">
                         {menu.subMenus?.map((subMenu, i) => (
@@ -56,15 +74,12 @@ const Header = () => {
                                 <MdOutlineKeyboardArrowRight />
                               )}
                             </Link>
-
-                            {/* if subMenu child has menu child */}
                             {subMenu?.subMenuChilds?.length > 0 && (
                               <ul className="sub_menu_child_list">
                                 {subMenu?.subMenuChilds?.map((subChild, i) => (
                                   <li key={i}>
                                     <Link to={subChild.url}>
-                                      {" "}
-                                      {subChild.title}{" "}
+                                      {subChild.title}
                                     </Link>
                                   </li>
                                 ))}
@@ -83,11 +98,11 @@ const Header = () => {
                 <MdNotes />
               </button>
               <div className="wallet_btn">
-                <img src={treeIcon} width={25} alt="icon" />
-                150000
+                <img src={ngcIcons} width={25} alt="icon" />
+                {points} NGC
               </div>
               <img src={notificationIcon} width={35} alt="" />
-              <Link to="/Profile">
+              <Link to={"/profile"}>
                 <img src={personIcon} width={35} alt="" />
               </Link>
             </div>

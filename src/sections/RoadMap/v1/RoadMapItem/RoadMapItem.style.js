@@ -48,28 +48,28 @@ const RoadMapItemStyleWrapper = styled.div`
       height: 100%;
       left: 0;
       top: 0;
-      background: #a3ff12;
+      background: var(--green-color);
       svg {
-        color: #090a1a;
+        color: var(--primary-background-color);
         font-size: 15px;
       }
     }
   }
 
-  @media (max-width: 1199px){
+  @media (max-width: 1199px) {
     .roadmap_list {
-        li{
-            font-size: 15px;
-        }
+      li {
+        font-size: 15px;
+      }
     }
-}
-  @media (max-width: 480px){
+  }
+  @media (max-width: 480px) {
     .roadmap_list {
-        li{
-            font-size: 14px;
-        }
+      li {
+        font-size: 14px;
+      }
     }
-}
+  }
 `;
 
 export default RoadMapItemStyleWrapper;

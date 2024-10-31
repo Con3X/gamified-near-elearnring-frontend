@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const ProjectsListStyleWrapper = styled.section`
   height: auto;
-  background: #090a1a;
+  background: var(--primary-background-color);
   position: relative;
 
   .previous_projects {

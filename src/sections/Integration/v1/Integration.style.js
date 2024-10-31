@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const IntegrationStyleWrapper = styled.section`
-  background: #090a1a;
+  background: var(--primary-background-color);
   padding-top: 0px;
   padding-bottom: 105px;
 
@@ -9,8 +9,8 @@ const IntegrationStyleWrapper = styled.section`
     margin-bottom: 32px;
   }
 
-  .integration_content{
-    p{
+  .integration_content {
+    p {
       margin-bottom: 26px;
     }
   }

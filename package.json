@@ -60,7 +60,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "globals": {
+    "createUnityInstance": "readonly"
+  }
   },
   "browserslist": {
     "production": [

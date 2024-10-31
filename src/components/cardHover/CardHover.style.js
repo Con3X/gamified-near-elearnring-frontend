@@ -42,7 +42,7 @@ const CardHoverWrapper = styled.div`
       height: 200px;
       background: linear-gradient(
         to top,
-        #a3ff12 -100%,
+        var(--green-color) -100%,
         rgba(21, 22, 37, 0) 64%
       );
     }
@@ -53,7 +53,7 @@ const CardHoverWrapper = styled.div`
       height: 5px;
       background: linear-gradient(
         to left,
-        #a3ff12 -100%,
+        var(--green-color) -100%,
         rgba(21, 22, 37, 0) 64%
       );
     }

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const TeacherListStyleWrapper = styled.div`
-  background: #090a1a;
+  background: var(--primary-background-color);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -26,7 +26,7 @@ const TeacherListStyleWrapper = styled.div`
     padding-top: 50px;
     flex-wrap: wrap;
 
-    form {
+    .search-div {
       position: relative;
 
       input,
@@ -38,7 +38,7 @@ const TeacherListStyleWrapper = styled.div`
         width: 360px;
         padding: 11px 50px 11px 20px;
         color: rgba(255, 255, 255, 0.7);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid var(--secondary-color);
 
         &:focus {
           outline: none;
@@ -87,7 +87,7 @@ const TeacherListStyleWrapper = styled.div`
 
   @media (max-width: 480px) {
   .breadcrumb_form {
-  form {
+  .search-div {
     width: 100% !important;
       input {
         width: 100% !important;

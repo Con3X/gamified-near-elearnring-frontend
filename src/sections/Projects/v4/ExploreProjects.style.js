@@ -1,6 +1,6 @@
 import styled from "styled-components";
 const ExploreProjectsStyleWrapper = styled.div`
-  background: #090a1a;
+  background: var(--primary-background-color);
   padding-top: 115px;
   padding-bottom: 105px;
   background-size: cover;

@@ -24,7 +24,7 @@ body {
     font-family: 'Inter', sans-serif !important;
     line-height: 1.6 !important;
     font-weight: 500 !important; 
-    background-color: #151625 !important; 
+    background-color: var(--primary-background-color) !important; 
 }
 
 img {
@@ -85,7 +85,7 @@ a:active,
 a:hover {
     text-decoration: none !important;
     outline: 0 none;
-    color: #a3ff12;
+    color: var(--green-color);
 }
 
 ul {

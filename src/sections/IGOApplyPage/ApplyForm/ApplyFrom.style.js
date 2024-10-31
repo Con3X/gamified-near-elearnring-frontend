@@ -90,7 +90,7 @@ const ApplyFormStyleWrapper = styled.div`
     }
 
     input[type="radio"]:checked {
-      background-color: #a3ff12;
+      background-color: var(--green-color);
 
       &::before {
         border-color: #568416;
@@ -129,7 +129,7 @@ const ApplyFormStyleWrapper = styled.div`
     }
   }
 
-  .btn_wrapper{
+  .btn_wrapper {
     width: 100%;
   }
 `;

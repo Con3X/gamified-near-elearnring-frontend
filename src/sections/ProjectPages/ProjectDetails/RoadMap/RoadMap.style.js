@@ -19,7 +19,7 @@ const RoadMapStyleWrapper = styled.div`
     margin-bottom: 10px;
 
     &.roadmap_title_done {
-      color: #a3ff12;
+      color: var(--green-color);
     }
   }
 

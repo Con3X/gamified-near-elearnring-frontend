@@ -29,7 +29,7 @@ const PaginationStyleWrapper = styled.div`
     &:hover,
     &.active {
       background-color: #2e2f3c;
-      color: #a3ff12;
+      color: var(--green-color);
     }
 
     &.active {

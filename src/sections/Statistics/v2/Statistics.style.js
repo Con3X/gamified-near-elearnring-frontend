@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const StatisticsStyleWrapper = styled.section`
-  background: #090a1a;
+  background: var(--primary-background-color);
   padding-top: 0px;
   padding-bottom: 105px;
 
@@ -38,7 +38,7 @@ const StatisticsStyleWrapper = styled.section`
       left: 0;
       top: 9px;
       content: "";
-      background: #a3ff12;
+      background: var(--green-color);
     }
     &:nth-child(2) {
       &::before {

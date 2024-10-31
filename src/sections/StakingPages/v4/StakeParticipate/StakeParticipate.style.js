@@ -36,14 +36,14 @@ const StakeParticipateStyleWrapper = styled.div`
       &:hover {
         button {
           background: #303244;
-          color: #a3ff12;
+          color: var(--green-color);
         }
       }
 
       &.active {
         button {
           background: #303244;
-          color: #a3ff12;
+          color: var(--green-color);
         }
       }
     }

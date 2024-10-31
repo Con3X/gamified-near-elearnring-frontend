@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const AllocationStyleWrapper = styled.div`
-  background: #090a1a;
+  background: var(--primary-background-color);
   padding-top: 0px;
   padding-bottom: 105px;
   .menu-list {
@@ -57,7 +57,7 @@ const AllocationStyleWrapper = styled.div`
       display: none;
       visibility: hidden;
     }
-  } 
+  }
 `;
 
 export default AllocationStyleWrapper;

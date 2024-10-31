@@ -1,9 +1,9 @@
-import styled from "styled-components"; 
+import styled from "styled-components";
 
 const MentorStyleWrapper = styled.section`
-  background: #090A1A;
-    padding-top: 0px;
-    padding-bottom: 105px;
+  background: var(--primary-background-color);
+  padding-top: 0px;
+  padding-bottom: 105px;
 
   .section_title {
     text-align: center;

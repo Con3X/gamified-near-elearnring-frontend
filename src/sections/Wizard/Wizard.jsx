@@ -13,7 +13,6 @@ export default function Wizard() {
   const navigate = useNavigate();
   const [isAccepted, setIsAccepted] = useState(false);
   const [step, setStep] = useState(1);
-  const navigate = useNavigate();
   const [formInput, setFormInput] = useState({
     firstname: "",
     lastname: "",
@@ -83,7 +82,7 @@ export default function Wizard() {
   };
   const handleBackToHome = (e) => {
     handleSubmit(e);
-    navigate("/home");
+    navigate("/");
   };
   return (
     <div className="Wizard">

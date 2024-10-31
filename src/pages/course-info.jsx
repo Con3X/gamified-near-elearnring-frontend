@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import Layout from "components/layout";
 import GlobalStyles from "assets/styles/GlobalStyles";
 import Header from "sections/Header/v2";
-import PageHeader from "sections/TeamDetails/PageHeader";
+import PageHeader from "components/PageHeader/PageHeader";
 import CourseInfo from "sections/Course/Course-Info/CourseInfo";
 import { useParams } from "react-router-dom";
 

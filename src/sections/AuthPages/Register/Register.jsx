@@ -13,12 +13,12 @@ const Register = () => {
                         <div className="auth_form_content">
                             <div className="auth_form">
                                 <h2>CREATE ACCOUNT</h2>
-                                <h3>Inter your name, valid email address and password to register your account</h3>
+                                <h3>Inter your name, valid email address and password to be saved into your profile</h3>
                                 <form>
                                     <div className="row input_field_row">
                                         <div className="form-group col-md-12">
                                             <label htmlFor="fullName">Full Name</label>
-                                            <input type="text" id="fullName" placeholder="Enter your email address" className="form-control" />
+                                            <input type="text" id="fullName" placeholder="Enter your full name" className="form-control" />
                                         </div>
                                         <div className="form-group col-md-12">
                                             <label htmlFor="email">Email Address</label>
@@ -32,9 +32,9 @@ const Register = () => {
                                     <div className="auth_form_bttom">
                                         <div className={`pass_remember_check ${isChecked ? 'active' : ''}`}>
                                             <label>I accept the
-                                                <a href="#">Term of Conditions</a>
+                                                <a href="/legal-disclaimer">Term of Conditions</a>
                                                 and
-                                                <a href="#">Privacy Policy</a>
+                                                <a href="/privacy-policy">Privacy Policy</a>
                                                 <input type="checkbox" onChange={() => setChecked(!isChecked)} />
                                             </label>
                                             <span className="checkmark" onClick={() => setChecked(!isChecked)}> <FiCheck /></span>

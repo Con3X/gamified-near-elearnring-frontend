@@ -22,13 +22,15 @@ const BannerStyleWrapper = styled.section`
     .banner-title {
       margin: 0 0 20px;
       text-transform: uppercase;
+      text-shadow: 0 0 15px black;
     }
 
     .description {
       color: #ffffff;
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 1000;
       margin: 0 0 40px;
+      text-shadow: 0 0 15px black;
     }
   }
 
@@ -42,6 +44,7 @@ const BannerStyleWrapper = styled.section`
       .banner-title {
         margin: 0 0 20px;
         font-size: 40px;
+        text-shadow: 0 0 15px black;
       }
     }
   }
@@ -50,6 +53,7 @@ const BannerStyleWrapper = styled.section`
     .banner-content {
       .banner-title {
         font-size: 30px;
+        text-shadow: 0 0 15px black;
       }
     }
   }
@@ -59,6 +63,7 @@ const BannerStyleWrapper = styled.section`
       .banner-title {
         font-size: 28px;
         margin-bottom: 10px;
+        text-shadow: 0 0 15px black;
       }
 
       .description {
@@ -74,6 +79,7 @@ const BannerStyleWrapper = styled.section`
     .banner-content {
       .banner-title {
         font-size: 24px;
+        text-shadow: 0 0 15px black;
       }
     }
   }

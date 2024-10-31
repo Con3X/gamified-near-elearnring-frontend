@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const LeaderboardStyleWrapper = styled.div`
   padding: 120px 0 100px;
-  background: #090a1a;
+  background: var(--primary-background-color);
 
   .leaderboard_list {
     display: block;

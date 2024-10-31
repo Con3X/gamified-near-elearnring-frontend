@@ -3,7 +3,7 @@ import EdirQAStyleWrapper from "./EditQA.Style";
 import Button from "components/button";
 import { handleSubmit, handleOnChangeDescription } from "./index";
 import RichBoxQuill from "components/richBoxQuill/RichBoxQuill";
-import Answares from "./Answares/Answares";
+import Answers from "./Answers/Answers";
 import { updateQA, createQA, findQA } from "apiService";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -22,10 +22,23 @@ export default function EditQA({ courseId, lessonId, qaId }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //extract id answare from array options (answare)
+    const hasCorrectAnswer = formInput.options.some(
+      (option) => option.is_correct === true
+    );
+
+    if (!hasCorrectAnswer) {
+      Swal.fire({
+        icon: "warning",
+        title: "Warning",
+        text: "Please select at least one correct answer before submitting.",
+      });
+      return;
+    }
+
+    //extract id answer from array options (answer)
     const optionsWithoutId = formInput.options.map(({ id, ...rest }) => rest);
 
-    //Prepare the sent data without index 0,1,2....etc from array options (answare)
+    //Prepare the sent data without index 0,1,2....etc from array options (answer)
     const updatedFormInput = {
       description: formInput.description,
       //sequence:Number(formInput.sequence),
@@ -33,8 +46,8 @@ export default function EditQA({ courseId, lessonId, qaId }) {
     };
 
     try {
-      const creat = await createQA(updatedFormInput, courseId, lessonId);
-      if (creat) {
+      const create = await createQA(updatedFormInput, courseId, lessonId);
+      if (create) {
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -57,12 +70,26 @@ export default function EditQA({ courseId, lessonId, qaId }) {
    */
   const handleUpdate = async (e) => {
     e.preventDefault();
-    //extract question_id from array options (answare)
+
+    const hasCorrectAnswer = formInput.options.some(
+      (option) => option.is_correct === true
+    );
+
+    if (!hasCorrectAnswer) {
+      Swal.fire({
+        icon: "warning",
+        title: "Warning",
+        text: "Please select at least one correct answer before submitting.",
+      });
+      return;
+    }
+
+    //extract question_id from array options (answer)
     const optionsWithoutId = formInput.options.map(
       ({ question_id, ...rest }) => rest
     );
 
-    //Prepare the sent data without index 0,1,2....etc from array options (answare)
+    //Prepare the sent data without index 0,1,2....etc from array options (answer)
     const updatedFormInput = {
       description: formInput.description,
       //sequence:Number(formInput.sequence),
@@ -133,8 +160,8 @@ export default function EditQA({ courseId, lessonId, qaId }) {
                 </div>
                 <div className="right-content">
                   <div>
-                    <h4>The Answare</h4>
-                    <Answares
+                    <h4>The Answer</h4>
+                    <Answers
                       data={formInput.options}
                       setFormInput={setFormInput}
                     />

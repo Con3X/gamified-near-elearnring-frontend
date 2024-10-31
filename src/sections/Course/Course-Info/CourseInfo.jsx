@@ -1,37 +1,33 @@
-import React, { useRef, useState , useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import CourseInfoStyleWrapper from "./CourseInfo.Style";
 import uploadIcon from "assets/images/icons/uploadIcon.svg";
 import RichBoxQuill from "components/richBoxQuill/RichBoxQuill";
 import Button from "components/button";
 import CropImage from "components/cropImage/CropImage.jsx";
-//import { handleSubmit } from "./index";
+import { courseDifficultyList } from "./index";
 import { uploadImage } from "utils/UploadImage";
-import { createCourse , updateCourse , getCourseById } from "apiService"; 
+import { createCourse, updateCourse, getCourseById } from "apiService";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-
-export default function CourseInfo({courseId}) {
+export default function CourseInfo({ courseId }) {
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [image, setImage] = useState(null);
   const [formInput, setFormInput] = useState({
     name: "",
     title: "",
-    difficulty: "",
+    tag: "",
+    difficulty: "Beginner",
     description: "",
     logo: "",
   });
 
-  const handleOnChangeDescription = (value) => {
-    setFormInput(() => ({
-      ...formInput,
-      description: value,
-    }));
-  };
-
   const handleCroppedImage = async (img) => {
     setImage(img);
     const url = await uploadImage(img);
-    setFormInput(() => ({
+    setFormInput((prevInput) => ({
+      ...prevInput,
       ...formInput,
       logo: url,
     }));
@@ -51,36 +47,60 @@ export default function CourseInfo({courseId}) {
 
   /**
    * This is to send data to the back end in case of creating a new course.
-  */
+   */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!formInput.tag.trim()) {
+      Swal.fire({
+        icon: "warning",
+        title: "Required Field",
+        text: "The Tags field is required. Please enter all related tags.",
+      });
+      return;
+    }
+
     try {
       const create = await createCourse(formInput);
       if (create.data) {
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: "The course has been created successfully.!",
+          text: "The course has been created successfully! You can now proceed to add lessons",
         });
+        navigate(`/show-lesson/${create.data.id}`);
       }
+
+    
     } catch (error) {
       console.error("Error in creating course:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "There was an error create the course.",
+        html: `There was an error create the course: <br /> <b> ${error.cause.message} </b>`,
       });
     }
   };
+
 
   /**
    * This works when modifying course data and sending data to the back end.
    */
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    if (!formInput.tag.trim()) {
+      Swal.fire({
+        icon: "warning",
+        title: "Required Field",
+        text: "The Tags field is required. Please enter all related tags.",
+      });
+      return;
+    }
+
     try {
-      const update = await updateCourse(formInput , courseId);
+      const update = await updateCourse(formInput, courseId);
       if (update.data) {
         Swal.fire({
           icon: "success",
@@ -106,7 +126,7 @@ export default function CourseInfo({courseId}) {
     const fetchCourse = async () => {
       if (courseId !== undefined) {
         try {
-          const response = await getCourseById(courseId); 
+          const response = await getCourseById(courseId);
           const courseData = response.data;
           setFormInput({
             name: courseData.name,
@@ -114,8 +134,9 @@ export default function CourseInfo({courseId}) {
             difficulty: courseData.difficulty,
             description: courseData.description,
             logo: courseData.logo,
+            tag: courseData.tag,
           });
-          setImage(courseData.logo); 
+          setImage(courseData.logo);
         } catch (error) {
           console.error("Error fetching course data:", error);
         }
@@ -142,7 +163,7 @@ export default function CourseInfo({courseId}) {
                     <input
                       type="text"
                       name="name"
-                      placeholder="Enter your first name"
+                      placeholder="Enter the course name"
                       value={formInput.name}
                       onChange={handleInputChange}
                     />
@@ -157,73 +178,55 @@ export default function CourseInfo({courseId}) {
                       onChange={handleInputChange}
                     />
                   </div>
+                  <div>
+                    <h6>Course Tags</h6>
+                    <input
+                      type="text"
+                      name="tag"
+                      placeholder="Tags of the course like: JavaScript, Smart-Contract, AI ..."
+                      value={formInput.tag}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                   {/* Start Radio Option */}
                   <div>
                     <h6>Course Difficulty</h6>
-                    <div className="courseDifficulty">
+                    <div className="courseDifficulty d-flex">
                       <div className="flex-grow-1">
-                        <div>
-                          <input
-                            type="radio"
-                            name="difficulty"
-                            value="Beginner"
-                            checked={formInput.difficulty === "Beginner"}
-                            onChange={handleInputChange}
-                          />
-                          <label>1. newbie (Beginner)</label>
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            name="difficulty"
-                            value="Normal"
-                            checked={formInput.difficulty === "Normal"}
-                            onChange={handleInputChange}
-                          />
-                          <label>2. Learner (Normal)</label>
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            name="difficulty"
-                            value="Advanced"
-                            checked={formInput.difficulty === "Advanced"}
-                            onChange={handleInputChange}
-                          />
-                          <label>3. Pro (Advanced)</label>
-                        </div>
+                        {courseDifficultyList
+                          .slice(0, Math.ceil(courseDifficultyList.length / 2))
+                          .map((difficulty, index) => (
+                            <div key={index}>
+                              <input
+                                type="radio"
+                                name="difficulty"
+                                value={difficulty.value}
+                                checked={
+                                  formInput.difficulty === difficulty.value
+                                }
+                                onChange={handleInputChange}
+                              />
+                              <label>{difficulty.label}</label>
+                            </div>
+                          ))}
                       </div>
                       <div className="flex-grow-1">
-                        <div>
-                          <input
-                            type="radio"
-                            name="difficulty"
-                            value="Legend"
-                            checked={formInput.difficulty === "Legend"}
-                            onChange={handleInputChange}
-                          />
-                          <label>4. Legend</label>
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            name="difficulty"
-                            value="Master"
-                            checked={formInput.difficulty === "Master"}
-                            onChange={handleInputChange}
-                          />
-                          <label>5. Master</label>
-                        </div>
-                        <div>
-                          <input
-                            type="radio"
-                            name="difficulty"
-                            value="Haker"
-                            checked={formInput.difficulty === "Haker"}
-                            onChange={handleInputChange}
-                          />
-                          <label>6. Haker</label>
-                        </div>
+                        {courseDifficultyList
+                          .slice(Math.ceil(courseDifficultyList.length / 2))
+                          .map((difficulty, index) => (
+                            <div key={index}>
+                              <input
+                                type="radio"
+                                name="difficulty"
+                                value={difficulty.value}
+                                checked={
+                                  formInput.difficulty === difficulty.value
+                                }
+                                onChange={handleInputChange}
+                              />
+                              <label>{difficulty.label}</label>
+                            </div>
+                          ))}
                       </div>
                     </div>
                   </div>
@@ -231,9 +234,9 @@ export default function CourseInfo({courseId}) {
                   <div>
                     <h6>Course Logo</h6>
                     <div className="course-logo">
-                      <label>Upload From Your Disc</label>
+                      <label>Upload from your Device</label>
                       <img
-                        src={image !== null ? image : uploadIcon}
+                        src={image ? image : uploadIcon}
                         alt=""
                         width={image !== null ? 80 : 100}
                         onClick={handleButtonClick}
@@ -247,12 +250,12 @@ export default function CourseInfo({courseId}) {
 
                 <div className="right-content">
                   <div>
-                    <h6>Course Discription</h6>
+                    <h6>Course Description</h6>
                     <div className="discriptionQuill">
                       <RichBoxQuill
-                        placeholder="Enter discription talking about this course"
+                        placeholder="Enter description talking about this course"
                         value={formInput.description}
-                        onChange={(val) => handleOnChangeDescription(val)}
+                        onChange={(val) => handleInputChange({target: {name: 'description', value: val}})}
                       />
                     </div>
                   </div>
@@ -264,8 +267,19 @@ export default function CourseInfo({courseId}) {
                   lg
                   onClick={courseId === undefined ? handleSubmit : handleUpdate}
                 >
-                  Send Course To Review
+                  {courseId === undefined ? 'Add and Edit Lessons' : 'Update'}
                 </Button>
+                </div>
+                <div className="mt-3 btu">
+                {!!courseId && 
+                  <Button
+                    variant="mint"
+                    lg
+                    onClick={() => navigate(`/show-lesson/${courseId}`)}
+                  > 
+                    Edit Lessons
+                  </Button>
+                }
               </div>
             </form>
           </div>

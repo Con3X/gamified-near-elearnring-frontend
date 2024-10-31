@@ -5,7 +5,7 @@ import headerBg2 from "assets/images/bg/header-shape2.png";
 const NavWrapper = styled.nav`
   z-index: 999;
   position: relative;
-  background: #090a1a;
+  background: var(--primary-background-color);
 
   &::before,
   &::after {
@@ -44,6 +44,13 @@ const NavWrapper = styled.nav`
       z-index: 1000;
       margin-top: 0px;
       transition: all 0.2s;
+    }
+  }
+  .logo {
+    img {
+      width: 100px;
+      z-index: 9999;
+      position: relative;
     }
   }
 `;

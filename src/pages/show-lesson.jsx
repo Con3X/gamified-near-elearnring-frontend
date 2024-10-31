@@ -16,7 +16,7 @@ export default function ShowLessonPage() {
         <PageHeader
           currentPage="Add Course Info"
           pageTitle="Course Lesson"
-          buttonName={"Add Lesson"}
+          buttonName={"Add a Lesson"}
           href={`/add-lesson/${courseId}`}
         />
         <ShowLesson courseId={courseId} />

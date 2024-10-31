@@ -53,7 +53,7 @@ export default function EditLesson({ courseId, lessonId }) {
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: "The lesson has been created successfully! <br> You can add questions to the lesson from the side section.",
+          text: "The lesson has been created successfully!  You can add questions to the lesson from the side section.",
         });
         window.scrollTo({
           top: 0,
@@ -237,11 +237,11 @@ export default function EditLesson({ courseId, lessonId }) {
                       <select
                         id="qa-type"
                         name="qa-type"
-                        value="Shoce Q/A Type"
+                        value="Choose Q/A Type"
                         onChange={handleSelectChange}
                       >
-                        <option value="Shoce Q/A Type" disabled>
-                          Shoce Q/A Type
+                        <option value="Choose Q/A Type" disabled>
+                          Choose Q/A Type
                         </option>
                         <option value="Multiple-choice questions">
                           + Multiple-choice questions
@@ -268,3 +268,4 @@ export default function EditLesson({ courseId, lessonId }) {
     </>
   );
 }
+

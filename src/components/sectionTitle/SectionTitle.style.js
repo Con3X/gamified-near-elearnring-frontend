@@ -5,7 +5,7 @@ export const SectionTitleStyle = styled.div`
   z-index: 1;
   span {
     display: inline-block;
-    color: #a3ff12;
+    color: var(--green-color);
     font-size: 16px;
     font-weight: 400;
     text-transform: uppercase;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MdNotes,
   MdOutlineKeyboardArrowDown,
@@ -9,20 +9,49 @@ import NavWrapper from "./Header.style";
 import Button from "components/button";
 import MobileMenu from "../MobileMenu/MobileMenu";
 import data from "assets/data/menu/menuData";
-import logo from "assets/images/logo.png";
+import logo from "assets/images/brand/Logo/Without-BG/Logo-5.png";
 import connectIcon from "assets/images/icons/connect.png";
 import notificationIcon from "assets/images/icons/notification.png";
 import personIcon from "assets/images/icons/person.png";
-import treeIcon from "assets/images/icons/tree.png";
-import { isTokenValid } from "../../../utils/ProviderAuth";
-import { Link } from "react-router-dom";
+import ngcIcons from "assets/images/brand/Logo/Without-BG/Logo-3-Size/32.png";
+import { Link, useNavigate } from "react-router-dom";
+import { getCurrentNgcs } from "apiService";
+import { isTokenValid } from "utils/ProviderAuth";
 
-const Header = () => {
+const Header = ({ isValid, setIsValid }) => {
+
+  const navigate = useNavigate();
+
   const [isMobileMenu, setMobileMenu] = useState(false);
+  const [points, setPoints] = useState(0);
+  const [buttonText, setButtonText] = useState('Connect');
 
   const handleMobileMenu = () => {
     setMobileMenu(!isMobileMenu);
   };
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const valid = await isTokenValid(false);
+      setIsValid(valid);
+    };
+    checkToken();
+  }, []);
+
+  useEffect(() => {
+    const getCurrNgcs = async () => {
+      try {
+        const result = await getCurrentNgcs();
+        if(result) {
+          setPoints(result.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getCurrNgcs();
+  }, []);
 
   return (
     <NavWrapper className="gamfi_header" id="navbar">
@@ -38,19 +67,22 @@ const Header = () => {
           </div>
           <div className="gamfi_menu_right_sect gamfi_v1_menu_right_sect">
             <div className="gamfi_menu_list">
-              {isTokenValid(false) === true && (
+              {isValid === true && (
                 <ul>
                   {/* menu  */}
                   {data?.map((menu, i) => (
                     <li key={i}>
-                      <Link to={menu.url}>
-                        {menu.title}{" "}
-                        {menu.subMenus?.length > 0 && (
-                          <MdOutlineKeyboardArrowDown />
-                        )}
-                      </Link>
+                      {menu.action ? (
+                        <Link onClick={menu.action}>{menu.title}</Link>
+                      ) : (
+                        <Link to={menu.url}>
+                          {menu.title}{" "}
+                          {menu.subMenus?.length > 0 && (
+                            <MdOutlineKeyboardArrowDown />
+                          )}
+                        </Link>
+                      )}
 
-                      {/* if has subMenu and length is greater than 0 */}
                       {menu.subMenus?.length > 0 && (
                         <ul className="sub_menu_list">
                           {menu.subMenus?.map((subMenu, i) => (
@@ -61,16 +93,13 @@ const Header = () => {
                                   <MdOutlineKeyboardArrowRight />
                                 )}
                               </Link>
-
-                              {/* if subMenu child has menu child */}
                               {subMenu?.subMenuChilds?.length > 0 && (
                                 <ul className="sub_menu_child_list">
                                   {subMenu?.subMenuChilds?.map(
                                     (subChild, i) => (
                                       <li key={i}>
                                         <Link to={subChild.url}>
-                                          {" "}
-                                          {subChild.title}{" "}
+                                          {subChild.title}
                                         </Link>
                                       </li>
                                     )
@@ -87,7 +116,7 @@ const Header = () => {
               )}
             </div>
             <div className="gamfi_menu_btns">
-              {isTokenValid(false) === true ? (
+              {isValid === true ? (
                 <>
                   <button
                     className="menu_btn"
@@ -96,8 +125,8 @@ const Header = () => {
                     <MdNotes />
                   </button>
                   <div className="wallet_btn">
-                    <img src={treeIcon} width={25} alt="icon" />
-                    150000
+                    <img src={ngcIcons} width={25} alt="icon" />
+                    {points} NGC
                   </div>
                   <img src={notificationIcon} width={35} alt="" />
                   <Link to="/Profile">
@@ -111,10 +140,10 @@ const Header = () => {
                   sm
                   variant="white"
                   className="connect_btn"
-                  onClick={handleNearLogin}
+                  onClick={() => handleNearLogin(navigate, setButtonText, setIsValid)}
                 >
                   <img src={connectIcon} alt="icon" />
-                  Connect
+                  {buttonText}
                 </Button>
               )}
             </div>

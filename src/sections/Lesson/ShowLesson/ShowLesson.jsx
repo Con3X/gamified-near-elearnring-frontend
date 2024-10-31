@@ -3,6 +3,7 @@ import EditLessonStyleWrapper from "./ShowLesson.Style";
 import ListManager from "components/listManager/ListManager";
 import { initDataTest, handelChangeReanger } from "./index";
 import { getAllLesson } from "apiService";
+import Button from "components/button";
 
 export default function ShowLesson({ courseId }) {
   const [data, setData] = useState([]);
@@ -28,6 +29,9 @@ export default function ShowLesson({ courseId }) {
       <EditLessonStyleWrapper>
         <div className="container">
           <div className="row">
+
+          { data && data.length !== 0 && 
+          <>
             <h4>All Lesson</h4>
             <div>
               <ListManager
@@ -39,6 +43,13 @@ export default function ShowLesson({ courseId }) {
                 arrangeFild={"order"}
               />
             </div>
+            </>
+          }
+
+          <Button md variant="mint" 
+            href={`/add-lesson/${courseId}`}>
+            Add a Lesson
+            </Button>
           </div>
         </div>
       </EditLessonStyleWrapper>

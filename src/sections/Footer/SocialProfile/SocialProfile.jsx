@@ -9,7 +9,11 @@ const Social = () => {
         <SectionTitle isCenter={true} subtitle="FIND US ON SOCIAL" />
         <div className="social-link-list">
           {data?.map((profile, i) => (
-            <a key={i} href={profile.url}>
+            <a
+              key={i}
+              href={profile.url}
+              style={{ boxShadow: "0 0 15px white" }}
+            >
               {" "}
               <img src={profile.icon} alt="social icon" />{" "}
             </a>

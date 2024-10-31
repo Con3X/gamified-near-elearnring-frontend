@@ -2,7 +2,7 @@ import styled from "styled-components";
 import teamBg from "assets/images/bg/team-bg.jpg";
 
 const TeamStyleWrapper = styled.section`
-  background-color: #090a1a;
+  background-color: var(--primary-background-color);
   background: url(${teamBg});
   background-repeat: no-repeat;
   background-position: center;

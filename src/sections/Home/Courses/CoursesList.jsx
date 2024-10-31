@@ -1,43 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CourseCard from "./CourseCard/CourseCard";
 import CoursesListStyleWrapper from "./CoursesList.style";
 import { FiSearch } from "react-icons/fi";
-import { getAllCourses } from "apiService";
+import { getAllCourses, searchOnCourses } from "apiService";
 
 export default function CoursesList() {
+  const searchRef = useRef("");
   const [courses, setCourses] = useState([]);
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await getAllCourses();
-        const coursesData = response.data;
-        setCourses(coursesData);
-      } catch (error) {
-        console.error("Error fetching courses data:", error);
-      }
-    };
+  const fetchCourses = async () => {
+    try {
+      const response = await getAllCourses();
+      const coursesData = response.data;
+      setCourses(coursesData);
+    } catch (error) {
+      console.error("Error fetching courses data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchCourses();
   }, []);
 
+  const handleSearch = async () => {
+    if (searchRef.current.value !== "") {
+      try {
+        const response = await searchOnCourses(searchRef.current.value);
+        const coursesData = response.data;
+        setCourses(coursesData);
+      } catch (error) {
+        console.log(`Error search data: ${error}`);
+      }
+    } else {
+      fetchCourses();
+    }
+  };
   return (
     <CoursesListStyleWrapper>
       <div className="container pb-5">
         <div>
           <div className="breadcrumb_form">
-            <form onSubmit={(e) => e.preventDefault()}>
+            <div className="search-div">
               <input
+                ref={searchRef}
                 type="text"
-                id="Search"
+                id="search"
                 name="search"
                 placeholder="Search Course"
+                onChange={(e) => handleSearch()}
               />
-              <button>
+              <button onClick={() => handleSearch()}>
                 <FiSearch />
               </button>
-            </form>
-            <div className="btn" onClick={() => {}}>
+            </div>
+            {/* <div className="btn" onClick={() => {}}>
               Newest
             </div>
             <div className="btn" onClick={() => {}}>
@@ -48,7 +64,7 @@ export default function CoursesList() {
             </div>
             <div className="btn" onClick={() => {}}>
               All Courses
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="row">

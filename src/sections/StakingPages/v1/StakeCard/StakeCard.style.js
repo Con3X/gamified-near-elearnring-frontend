@@ -41,7 +41,7 @@ const StakeCardStyleWrapper = styled.div`
 
       .big-text {
         font-size: 30px;
-        color: #a3ff12;
+        color: var(--green-color);
         font-family: "Russo One", sans-serif;
       }
     }

@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import itemStripShape from "assets/images/bg/roadmap_strip_shape.svg";
 import roadmapArrowShape from "assets/images/bg/roadmap-arrow-shape.svg";
-import bgShape from "assets/images/kycimg/roadmapScreenbg.svg";
 
 const RoadMapDetailsStyleWrapper = styled.div`
   padding: 100px 0 120px 0;
-  background: #090a1a;
+  background: var(--primary-background-color);
   position: relative;
 
   &::before {
@@ -14,7 +13,6 @@ const RoadMapDetailsStyleWrapper = styled.div`
     top: 0;
     height: 100%;
     width: 100%;
-    background: url(${bgShape});
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -53,7 +51,7 @@ const RoadMapDetailsStyleWrapper = styled.div`
       top: -27px;
       width: 50px;
       height: 100px;
-      background: #090a1a;
+      background: var(--primary-background-color);
       content: "";
       z-index: 1;
       transform: rotate(150deg);
@@ -129,7 +127,7 @@ const RoadMapDetailsStyleWrapper = styled.div`
 
   .roadmap_title {
     font-size: 22px;
-    color: #a3ff12;
+    color: var(--green-color);
     margin-bottom: 10px;
   }
   .roadmap_check_list {

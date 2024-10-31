@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import { jwtDecode } from "jwt-decode";
 import { createAuthProvider } from "react-token-auth";
+import { selector } from "lib/nearhandler";
 
 //Calling the save token function from a library react-token-auth
 const { useAuth, login, logout } = createAuthProvider({
@@ -45,7 +46,7 @@ export const authFetch = async (url, options = {}) => {
       response.status !== 201 &&
       response.status !== 204
     ) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`, { cause: await response.json() });
     }
 
     return await response.json();
@@ -60,7 +61,7 @@ export const authFetch = async (url, options = {}) => {
  * @returns false if Token is expired
  * @returns true if Token is valid and the section is formating
  */
-export const isTokenValid = (showMessage = true) => {
+export const isTokenValid = async (showMessage = true) => {
   const token = localStorage.getItem("accessToken");
   if (!token) {
     if (showMessage) {
@@ -85,6 +86,21 @@ export const isTokenValid = (showMessage = true) => {
       });
     }
     return false; // Token is expired
+  }
+
+  try {
+    await selector.wallet();
+  } catch (error) {
+    if (showMessage) {
+      if (error.message === "No wallet selected") {
+        Swal.fire({
+          icon: "warning",
+          title: "No Wallet Connected",
+          text: "Please connect a wallet to proceed.",
+        });
+      }
+    }
+    return false;
   }
 
   return true; // Token is valid

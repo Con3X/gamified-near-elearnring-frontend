@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import GlobalStyles from "assets/styles/GlobalStyles";
 import Layout from "components/layout";
 import Banner from "sections/Banner/v1";
@@ -8,13 +8,15 @@ import CoursesList from "sections/Home/Courses/CoursesList";
 import Footer from "sections/Footer/v1";
 
 export default function HomePage() {
+  const [isValid, setIsValid] = useState(false);
+
   return (
     <Fragment>
       <Layout>
         <GlobalStyles />
-        <Header />
+        <Header isValid={isValid} setIsValid={setIsValid}/>
         <Banner />
-        <LatestCourses />
+        <LatestCourses isValid={isValid}/>
         <CoursesList />
         <Footer />
       </Layout>

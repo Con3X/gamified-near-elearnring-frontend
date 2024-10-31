@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const ContactStyleWrapper = styled.div`
   padding-top: 56px;
-  background: #090a1a;
+  background: var(--primary-background-color);
   padding-bottom: 140px;
 
   .contact_info_title {

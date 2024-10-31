@@ -61,7 +61,7 @@ const CourseContentWrapper = styled.nav`
 
   .title .title-content {
     height: 50px;
-    color: #a3ff12 !important;
+    color: var(--green-color) !important;
     padding: 7px 20px;
     border: 1px solid #68697e;
     display: flex;
@@ -96,15 +96,15 @@ const CourseContentWrapper = styled.nav`
   }
 
   .progreess .num {
-    color: #a3ff12;
+    color: var(--green-color);
   }
 
-  .answare-option {
+  .answer-option {
     display: inline-block;
     margin: 10px;
     width: 100%;
 
-  .answare-button {
+  .answer-button {
     display: block;
     background-color: #1e1f35;
     color: white;
@@ -124,7 +124,7 @@ const CourseContentWrapper = styled.nav`
     display: none;
   }
 
-  input[type="checkbox"]:checked + .answare-button {
+  input[type="checkbox"]:checked + .answer-button {
     background-color: #1e1f35;
     box-shadow: 5px 5px 0px #c7ff00;
   }

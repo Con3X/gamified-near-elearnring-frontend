@@ -4,7 +4,7 @@ const LatestCoursesStyleWrapper = styled.section`
   position: relative;
   padding-top: 188px;
   padding-bottom: 80px;
-  background: #151625;
+  background: var(--primary-background-color);
   margin-bottom: 380px;
 
   .in_preogress_courses_wrapper {

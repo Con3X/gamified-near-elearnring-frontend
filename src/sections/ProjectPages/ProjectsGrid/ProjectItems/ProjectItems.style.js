@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const ProjectItemsStyleWrapper = styled.div`
-  background: #090a1a;
+  background: var(--primary-background-color);
   padding-top: 170px;
   padding-bottom: 105px;
   background-size: cover;

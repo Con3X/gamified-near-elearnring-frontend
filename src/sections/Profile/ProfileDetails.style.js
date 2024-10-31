@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const ProfileDetailsStyleWrapper = styled.div`
-  background: #090b1a;
+  background: var(--primary-background-color);
   padding-top: 70px;
   padding-bottom: 140px;
   p {
@@ -26,7 +26,7 @@ const ProfileDetailsStyleWrapper = styled.div`
   }
 
   .right_content_title {
-    color: #a3ff12 !important;
+    color: var(--green-color) !important;
     font-weight: 400;
     margin: 0;
   }
@@ -82,8 +82,9 @@ const ProfileDetailsStyleWrapper = styled.div`
   }
 
   .img-naer-land {
-    margin-top: 20px;
-    box-shadow: 0 0 6px 1px white;
+    width: 100%;
+    max-width: 960px;
+    overflow: hidden;
   }
 
   @media only screen and (max-width: 768px) {

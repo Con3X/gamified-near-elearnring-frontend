@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const QATypeListStyleWrapper = styled.div`
   padding: 80px 0 50px;
-  background: #090a1a;
+  background: transparent;
 
   .ranking_list {
     display: block;
@@ -10,9 +10,8 @@ const QATypeListStyleWrapper = styled.div`
   }
 
   .des {
-    width: 50%;
+    width: 100%;
     overflow: hidden;
-    width: 300px;
   }
   .ranking_list_item {
     display: flex;
@@ -21,7 +20,7 @@ const QATypeListStyleWrapper = styled.div`
     column-gap: 10px;
     row-gap: 10px;
     padding: 20px 20px !important;
-    background: rgba(30, 31, 53, 0.8);
+    background: var(--card-background-color);
     backdrop-filter: blur(5px);
 
     li {
@@ -102,11 +101,19 @@ const QATypeListStyleWrapper = styled.div`
     .ranking_list_item + .ranking_list_item {
       margin-top: 0 !important;
     }
+    .des {
+      width: 240px;
+      overflow: hidden;
+    }
   }
 
   @media only screen and (max-width: 767px) {
     .ranking_list_item {
       width: 100%;
+    }
+    .des {
+      width: 220px;
+      overflow: hidden;
     }
   }
   @media only screen and (max-width: 320px) {
@@ -114,6 +121,10 @@ const QATypeListStyleWrapper = styled.div`
       li {
         font-size: 11px;
       }
+    }
+    .des {
+      width: 200px;
+      overflow: hidden;
     }
   }
 `;

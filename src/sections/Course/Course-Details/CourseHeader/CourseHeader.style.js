@@ -2,12 +2,12 @@ import styled from "styled-components";
 import bgShape from "assets/images/bg/card-bg-shape-big.png";
 
 const CourseHeaderStyleWrapper = styled.section`
-  background: #090a1a;
+  background: var(--primary-background-color);
 
   .cta-area {
     position: relative;
     padding: 150px 0 20px 0;
-    background: radial-gradient(circle, #4a4176 -24%, #1e1f35 40%);
+    background: var(--card-background-color);
     z-index: 1;
     margin-top: 50px;
     width: 80%;
@@ -30,6 +30,26 @@ const CourseHeaderStyleWrapper = styled.section`
       opacity: 0.8;
       z-index: -1;
     }
+  }
+
+  .total-rating {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  .rating-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+
+  .stars-rating {
+    font-size: 20px;
+  }
+
+  .count-rating {
+    font-size: 16px;
   }
 
   .course-logo {
@@ -93,6 +113,17 @@ const CourseHeaderStyleWrapper = styled.section`
     .title {
       font-size: 26px;
     }
+    .total-rating {
+      position: relative;
+      top: 0px;
+      right: 0px;
+    }
+    .rating-btn {
+      position: relative;
+      top: 0px;
+      left: 0px;
+      margin: 10px 0;
+    }
   }
   @media only screen and (max-width: 480px) {
     .title {
@@ -100,6 +131,17 @@ const CourseHeaderStyleWrapper = styled.section`
     }
     .dsc {
       padding: 0 10px;
+    }
+    .total-rating {
+      position: relative;
+      top: 0px;
+      right: 0px;
+    }
+    .rating-btn {
+      position: relative;
+      top: 0px;
+      left: 0px;
+      margin: 10px 0;
     }
   }
 `;

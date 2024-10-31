@@ -1,5 +1,5 @@
 import BannerStyleWrapper from "./Banner.style";
-import bannerIcon from "assets/images/icons/icon1.png";
+import bannerIcon from "assets/images/brand/Logo/Without-BG/Logo-3.png";
 
 const Banner = () => {
   return (
@@ -7,13 +7,22 @@ const Banner = () => {
       <BannerStyleWrapper>
         <div className="container">
           <div className="banner-content text-center">
-            <img src={bannerIcon} className="banner-icon" alt="banner icon" />
+            <img
+              width={100}
+              src={bannerIcon}
+              className="banner-icon"
+              alt="banner icon"
+            />
             <h1 className="banner-title">
-              Gather The Course,
-              <br /> Build Your Land
+              Gamified e-learning platform
+              <br />
+              
             </h1>
             <div className="description">
-              Gamfi Land Blockchain-agnostic Learn Platform
+            focusing on NEAR and blockchain agnostic technologies
+            </div>
+            <div className="description bold">
+              Play to learn & learn to earn
             </div>
           </div>
         </div>

@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 const CourseContentStyleWrapper = styled.section`
-  background: #090a1a;
+  background: var(--primary-background-color);
+  padding-bottom: 100px;
 
   .main {
     display: flex;

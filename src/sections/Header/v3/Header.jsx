@@ -1,14 +1,11 @@
 import { useState } from "react";
-import {
-  MdOutlineKeyboardArrowDown,
-  MdOutlineKeyboardArrowRight,
-} from "react-icons/md";
 import { handleNearLogin } from "../../../lib/nearhandler";
 import NavWrapper from "./Header.style";
 import Button from "components/button";
 import MobileMenu from "../MobileMenu/MobileMenu";
-import logo from "assets/images/logo.png";
+import logo from "assets/images/brand/Logo/Without-BG/Logo-5.png";
 import connectIcon from "assets/images/icons/connect.png";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isMobileMenu, setMobileMenu] = useState(false);
@@ -24,9 +21,9 @@ const Header = () => {
         <div className="gamfi_menu_sect">
           <div className="gamfi_menu_left_sect">
             <div className="logo">
-              <a href="/">
+              <Link to="/">
                 <img src={logo} alt="gamfi nft logo" />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="gamfi_menu_right_sect gamfi_v1_menu_right_sect">
