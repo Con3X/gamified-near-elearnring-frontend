@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# NearGami frontend
+
+The frontend of neargami.com
+
+## This project is a React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
  
@@ -68,3 +72,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+# License
+
+MIT
