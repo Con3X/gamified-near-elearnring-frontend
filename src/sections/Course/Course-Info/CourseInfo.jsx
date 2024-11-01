@@ -4,11 +4,12 @@ import uploadIcon from "assets/images/icons/uploadIcon.svg";
 import RichBoxQuill from "components/richBoxQuill/RichBoxQuill";
 import Button from "components/button";
 import CropImage from "components/cropImage/CropImage.jsx";
-import { courseDifficultyList } from "./index";
+import { courseDifficultyList, options, customStyles } from "./index";
 import { uploadImage } from "utils/UploadImage";
 import { createCourse, updateCourse, getCourseById } from "apiService";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 export default function CourseInfo({ courseId }) {
   const navigate = useNavigate();
@@ -21,7 +22,23 @@ export default function CourseInfo({ courseId }) {
     difficulty: "Beginner",
     description: "",
     logo: "",
+    // language: "English",
   });
+
+
+  const handleSelectChange = (selectedOption) => {
+    // setFormInput((prevInput) => ({
+    //   ...prevInput,
+    //   language: selectedOption.value,
+    // }));
+  };
+
+  const handleOnChangeDescription = (value) => {
+    setFormInput(() => ({
+      ...formInput,
+      description: value,
+    }));
+  };
 
   const handleCroppedImage = async (img) => {
     setImage(img);
@@ -71,8 +88,6 @@ export default function CourseInfo({ courseId }) {
         });
         navigate(`/show-lesson/${create.data.id}`);
       }
-
-    
     } catch (error) {
       console.error("Error in creating course:", error);
       Swal.fire({
@@ -82,7 +97,6 @@ export default function CourseInfo({ courseId }) {
       });
     }
   };
-
 
   /**
    * This works when modifying course data and sending data to the back end.
@@ -135,6 +149,7 @@ export default function CourseInfo({ courseId }) {
             description: courseData.description,
             logo: courseData.logo,
             tag: courseData.tag,
+            // language: courseData.language,
           });
           setImage(courseData.logo);
         } catch (error) {
@@ -243,6 +258,18 @@ export default function CourseInfo({ courseId }) {
                         style={{
                           padding: image !== null ? "10px 0px" : "0px",
                         }}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <h6>Course Language</h6>
+                    <div id="selector">
+                      <Select
+                        styles={customStyles}
+                        options={options}
+                        placeholder="Select language a course"
+                        // value={options.find(option => option.value === formInput.language)}
+                        // onChange={handleSelectChange}
                       />
                     </div>
                   </div>

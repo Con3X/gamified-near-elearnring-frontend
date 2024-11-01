@@ -57,7 +57,7 @@ const PageHeaderWithButtonStyleWrapper = styled.div`
       input {
         width: 300px;
         padding: 11px 50px 11px 20px;
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--secondary-color);
         border: 1px solid var(--secondary-color);
 
         &:focus {

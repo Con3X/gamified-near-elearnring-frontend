@@ -11,7 +11,7 @@ export default function PlayersPage() {
       <Layout>
         <GlobalStyles />
         <Header />
-        <PageHeader currentPage="Players" pageTitle="Neargami Players" />
+        <PageHeader currentPage="Players" pageTitle="NearGami Players" />
         <PlayersList />
       </Layout>
     </Fragment>

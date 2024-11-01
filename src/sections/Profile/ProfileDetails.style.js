@@ -31,6 +31,11 @@ const ProfileDetailsStyleWrapper = styled.div`
     margin: 0;
   }
 
+  .explain {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
   .member_title {
     font-size: 30px;
     line-height: 1.4;

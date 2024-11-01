@@ -80,6 +80,7 @@ const CourseInfoStyleWrapper = styled.div`
     padding: 0 50px 0 30px;
     border: 2px solid rgba(255, 255, 255, 0.15);
     border-radius: 10px;
+    margin-bottom: 12px;
   }
 
   .course-logo + label {
@@ -95,9 +96,52 @@ const CourseInfoStyleWrapper = styled.div`
   }
 
   .ql-container {
-    height: 465px;
+    height: 558px;
   }
 
+  // =============== Start Selector ==================
+
+  #selector {
+    margin-top: 5px;
+  }
+
+  .css-13cymwt-control {
+    height: 48px;
+  }
+
+  .css-hlgwow {
+    height: 48px;
+  }
+
+  .css-1wy0on6 {
+    height: 48px;
+  }
+
+  .css-19bb58m {
+    margin-top: 5px;
+    color: #bbbbc1;
+  }
+
+  .css-13cymwt-control {
+    width: 90%;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+  }
+
+  #react-select-2-placeholder {
+    margin-bottom: 10px;
+    margin-left: 10px;
+  }
+
+  .css-1iinogm-singleValue {
+    margin-bottom: 10px;
+  }
+
+  .css-5736gi-menu {
+    width: 90%;
+  }
+
+  // =============== End Selector ==================
   @media only screen and (max-width: 999px) {
     .course-info {
       flex-direction: column;
@@ -113,13 +157,27 @@ const CourseInfoStyleWrapper = styled.div`
       flex-direction: column;
       width: 100%;
     }
+
     input:not(input[type="radio"]) {
       width: 100%;
     }
+
     .course-logo {
       width: 100%;
+      margin-bottom: 12px;
     }
+
     .discriptionQuill {
+      width: 100%;
+    }
+
+    .css-rrhtqz-control {
+      width: 100%;
+    }
+    .css-5736gi-menu {
+      width: 100%;
+    }
+    .css-19nvztv-control {
       width: 100%;
     }
   }

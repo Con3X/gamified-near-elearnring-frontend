@@ -1,5 +1,5 @@
 import Social from "../../SocialProfile/SocialProfile";
-import footerLogo from "assets/images/logo.png";
+import footerLogo from "assets/images/brand/Logo/Without-BG/Logo-5.png";
 import { VscChevronUp } from "react-icons/vsc";
 import FooterBottomStyleWrapper from "./FooterBottom.style";
 
@@ -11,7 +11,7 @@ const FooterBottom = () => {
         <div className="footer-bottom-content">
           <a href="# " className="footer-logo">
             {" "}
-            <img src={footerLogo} alt="footer logo" />{" "}
+            <img src={footerLogo} width={250} alt="footer logo" />{" "}
           </a>
 
           <div className="scrollup text-center">

@@ -10,7 +10,7 @@ const PrivacyPolicy = () => {
         <ol>
             <li>
                 <strong>Introduction:</strong>
-                <p>This Privacy Policy explains how Neargami ("we", "us", or "our") collects, uses, and shares personal information of users ("you") of our website <a href="https://neargami.com">Neargami.com</a> and its associated services like <a href="https://t.me/NeargamiBot/app">t.me/NeargamiBot/app</a>.</p>
+                <p>This Privacy Policy explains how NearGami ("we", "us", or "our") collects, uses, and shares personal information of users ("you") of our website <a href="https://neargami.com">NearGami.com</a> and its associated services like <a href="https://t.me/NeargamiBot/app">t.me/NearGamiBot/app</a>.</p>
             </li>
             <li>
                 <strong>Information We Collect:</strong>

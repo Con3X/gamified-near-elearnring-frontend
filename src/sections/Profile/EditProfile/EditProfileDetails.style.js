@@ -107,6 +107,10 @@ const EditProfileDetailsStyleWrapper = styled.div`
     margin-left: 10px;
   }
 
+  .css-5736gi-menu {
+    width: 90%;
+  }
+
   img {
     margin-right: 3px;
     position: relative;
@@ -172,6 +176,12 @@ const EditProfileDetailsStyleWrapper = styled.div`
       margin-right: 0px;
     }
     .css-rrhtqz-control {
+      width: 100%;
+    }
+    .css-5736gi-menu {
+      width: 100%;
+    }
+    .css-19nvztv-control {
       width: 100%;
     }
   }

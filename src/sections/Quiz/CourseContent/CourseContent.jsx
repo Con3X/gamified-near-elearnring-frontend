@@ -127,6 +127,10 @@ export default function CourseContent({
         selectedAnswers.every((id) => correctAnswers.includes(id));
 
       setIsCorrect(isAllCorrect);
+      const audioFile = isAllCorrect ? '/Correct.wav' : '/Wrong.wav';
+      const audio = new Audio(audioFile);
+      audio.play();
+  
     } catch (error) {
       console.log(`Error on check answers ${error}`);
     }

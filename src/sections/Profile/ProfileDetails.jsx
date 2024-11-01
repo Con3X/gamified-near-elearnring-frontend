@@ -198,10 +198,14 @@ const ProfileDetails = ({ playerId }) => {
 
             <ul className="member_details">
               <li>
-                <strong>Neargami Coins:</strong> <span>{data.ngc}</span>
+                <strong>NearGami Coins:</strong> <span>{data.ngc}</span>
                 {/* <br/>
                 Your won points available to spend inside the website or to claim to your wallet. */}
               </li>
+              <div className="explain">
+                Your current balance of off-chain tokens ready for use within
+                our website's online game environment.
+              </div>
               <li>
                 <strong>Player Country:</strong> <span>{data.country}</span>
               </li>
@@ -211,6 +215,11 @@ const ProfileDetails = ({ playerId }) => {
               <li>
                 <strong>Top Points:</strong> <span>{data.top_points}</span>
               </li>
+              <div className="explain">
+                The cumulative number of coins you've earned since joining our
+                service.
+              </div>
+
               <li className="social_items">
                 <strong>Social:</strong>
                 <a href={data.discord}>

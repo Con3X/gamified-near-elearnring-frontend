@@ -1,5 +1,5 @@
 import BannerStyleWrapper from "./Banner.style";
-import bannerIcon from "assets/images/brand/Logo/Without-BG/Logo-3.png";
+import bannerIcon from "assets/images/brand/Logo/Without-BG/Logo-6.png";
 
 const Banner = () => {
   return (
@@ -8,7 +8,7 @@ const Banner = () => {
         <div className="container">
           <div className="banner-content text-center">
             <img
-              width={100}
+              width={350}
               src={bannerIcon}
               className="banner-icon"
               alt="banner icon"
@@ -21,7 +21,7 @@ const Banner = () => {
             <div className="description">
             focusing on NEAR and blockchain agnostic technologies
             </div>
-            <div className="description bold">
+            <div className="description">
               Play to learn & learn to earn
             </div>
           </div>
